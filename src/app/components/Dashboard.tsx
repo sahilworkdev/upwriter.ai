@@ -10,7 +10,6 @@ import Login from "../login/page";
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
-
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -22,8 +21,8 @@ const Dashboard = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
     window.addEventListener("resize", handleResize);
+    // window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);

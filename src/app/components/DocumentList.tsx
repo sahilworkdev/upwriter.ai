@@ -24,7 +24,7 @@ function DocumentList() {
         const accessToken = user.accessToken;
         try {
           const response = await axios.get(
-            "https://c285-2401-4900-8841-3999-354a-cbfb-b65e-665f.ngrok-free.app/api/documents",
+            `${process.env.SOURCE_URL}/api/documents`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -48,9 +48,9 @@ function DocumentList() {
       <div className="flex items-center justify-between mb-4">
         {showDocuments ? (
           <h2 className="sm:text-2xl text-lg font-bold flex items-center gap-2">
-            <FaArrowLeftLong 
-              className="cursor-pointer" 
-              onClick={() => setShowDocuments(false)} 
+            <FaArrowLeftLong
+              className="cursor-pointer"
+              onClick={() => setShowDocuments(false)}
             />
             New Document
           </h2>
@@ -89,11 +89,12 @@ function DocumentList() {
         </div>
       )}
 
-      {showDocuments && <Editor /> }
-      {showDocuments && <button className="text-white bg-[#474bff] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-500">Save document</button> }
-
-
-      
+      {showDocuments && <Editor />}
+      {showDocuments && (
+        <button className="text-white bg-[#474bff] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-500">
+          Save document
+        </button>
+      )}
     </div>
   );
 }

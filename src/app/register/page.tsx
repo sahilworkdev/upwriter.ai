@@ -7,8 +7,6 @@ import { useContext } from "react";
 import { AuthContext } from "../authContext/Context";
 import { useRouter } from "next/navigation";
 
-
-
 interface FormData {
   firstName: string;
   lastName: string;
@@ -18,7 +16,7 @@ interface FormData {
 }
 
 const Register = () => {
-  const { logIn, isLoggedIn } = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -37,12 +35,10 @@ const Register = () => {
     });
   };
 
-  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
-    const url =
-      "https://c285-2401-4900-8841-3999-354a-cbfb-b65e-665f.ngrok-free.app/api/users/register";
+    const url = `${process.env.SOURCE_URL}/api/users/register`;
 
     try {
       const res = await axios.post(url, formData);
@@ -161,7 +157,6 @@ const Register = () => {
       </div>
     </div>
   );
-
-}
+};
 
 export default Register;

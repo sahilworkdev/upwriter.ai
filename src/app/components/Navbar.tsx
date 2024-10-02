@@ -17,8 +17,7 @@ const Navbar = () => {
     const userJson = localStorage.getItem("user");
     if (userJson) {
       const user = JSON.parse(userJson);
-      const url =
-        "https://c285-2401-4900-8841-3999-354a-cbfb-b65e-665f.ngrok-free.app/api/users/logout";
+      const url = "https://1c1b-45-118-156-98.ngrok-free.app/api/users/logout";
       const refreshToken = user.refreshToken;
       try {
         const res = await axios.post(url, refreshToken);
@@ -94,5 +93,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

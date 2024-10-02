@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 
 const Login = () => {
   const { logIn } = useContext(AuthContext);
-  const { isLoggedIn } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -31,9 +30,7 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log(formData);
-    const url =
-      "https://c285-2401-4900-8841-3999-354a-cbfb-b65e-665f.ngrok-free.app/api/users/login";
+    const url = `${process.env.SOURCE_URL}/api/users/login`;
 
     try {
       const res = await axios.post(url, formData);
@@ -100,7 +97,7 @@ const Login = () => {
         </form>
         <div className="text-center">
           <p>
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/register" className="text-blue-500">
               Register here
             </Link>
