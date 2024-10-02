@@ -59,12 +59,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setEmail("");
   }
   function logIn(userData: AuthResponseType) {
-    const userJson = JSON.stringify(userData);
-    localStorage.setItem("user", userJson);
     setIsLoggedIn(true);
     setFirstName(userData.user.firstName);
     setLastName(userData.user.lastName);
     setEmail(userData.user.email);
+    const userJson = JSON.stringify(userData);
+    localStorage.setItem("user", userJson);
   }
 
   return (

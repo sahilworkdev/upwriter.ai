@@ -7,9 +7,36 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import Editor from "./Editor";
 import axios from "axios";
 
+type Metadata = {
+  useCase: string;
+  primaryKey: string;
+  researchLevel: number;
+  personality: string[];
+  tone: string[];
+  language: string;
+  _id: string;
+};
+
+type DataObject = {
+  _id: string;
+  content: string;
+  metadata: Metadata;
+  isDeleted: boolean;
+  isFavorite: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+type DocumentInfo = {
+  name: string;
+  words: number;
+  modified: string;
+  favourite: boolean;
+};
 function DocumentList() {
   const [favouritesON, setFavouritesON] = useState(false);
   const [showDocuments, setShowDocuments] = useState(false);
+  const [documents, setDocuments] = useState<DocumentInfo[]>([]);
 
   const toggleShowDocuments = () => {
     setShowDocuments(!showDocuments);
@@ -33,7 +60,17 @@ function DocumentList() {
 
           if (response.status === 200) {
             console.log(response.data);
-            // Handle successful response if needed
+            const data: DocumentInfo[] = response.data.map(
+              (doc: DataObject) => {
+                return {
+                  name: doc.content,
+                  words: 0,
+                  modified: doc.updatedAt,
+                  favourite: doc.isFavorite,
+                };
+              }
+            );
+            setDocuments(data);
           }
         } catch (error) {
           console.log(error);
@@ -83,7 +120,7 @@ function DocumentList() {
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
-              <Table favourites={favouritesON} />
+              <Table favourites={favouritesON} documents={documents} />
             </div>
           </div>
         </div>
@@ -91,7 +128,10 @@ function DocumentList() {
 
       {showDocuments && <Editor />}
       {showDocuments && (
-        <button className="text-white bg-[#474bff] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-500">
+        <button
+          className="text-white bg-[#474bff] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-500"
+          onClick={() => console.log("Save Documents")}
+        >
           Save document
         </button>
       )}

@@ -11,7 +11,7 @@ interface FormData {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber: number | string;
   password: string;
 }
 
@@ -29,9 +29,13 @@ const Register = () => {
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value: string | number = e.target.value;
+    if (e.target.name === "phoneNumber") {
+      value = Number(e.target.value);
+    }
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
   };
 
@@ -42,7 +46,11 @@ const Register = () => {
 
     try {
       const res = await axios.post(url, formData);
+      console.log(res);
       if (res.status === 201) logIn(res.data);
+      if (res.status === 400) {
+        router.push("/login");
+      }
       router.push("/");
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

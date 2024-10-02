@@ -34,9 +34,10 @@ const Login = () => {
 
     try {
       const res = await axios.post(url, formData);
+      console.log(res);
       if (res.status == 200) {
         logIn(res.data);
-        router.push("/");
+        setTimeout(() => router.push("/"), 2000);
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -92,7 +93,7 @@ const Login = () => {
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-[#6366F1] rounded-md hover:bg-[#474BFF] border-none"
           >
-            <Link href="/">Login</Link>
+            LogIn
           </button>
         </form>
         <div className="text-center">

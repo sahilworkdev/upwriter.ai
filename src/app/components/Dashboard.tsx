@@ -28,7 +28,7 @@ const Dashboard = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+  console.log("Dashboard render", isLoggedIn);
   return isLoggedIn ? (
     <main className="w-full p-4 ">
       <div className="flex gap-4">

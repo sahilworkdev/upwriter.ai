@@ -1,57 +1,20 @@
 import React from "react";
 import TableRow from "./TableRow";
 
-function Table({ favourites }: { favourites: boolean }) {
-  const data = [
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 0,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: true,
-    },
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 0,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: true,
-    },
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 0,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: false,
-    },
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 1,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: true,
-    },
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 0,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: false,
-    },
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 0,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: true,
-    },
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 0,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: false,
-    },
-    {
-      name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-      words: 0,
-      modified: "Sep27,2024 6:57 PM",
-      favourite: true,
-    },
-  ];
+type DocumentInfo = {
+  name: string;
+  words: number;
+  modified: string;
+  favourite: boolean;
+};
+function Table({
+  favourites,
+  documents,
+}: {
+  favourites: boolean;
+  documents: DocumentInfo[];
+}) {
+  const data = documents;
 
   return (
     <div

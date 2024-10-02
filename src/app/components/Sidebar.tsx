@@ -25,7 +25,7 @@ const tones = [
 const Sidebar = () => {
   const [useCase, setUseCase] = useState("");
   const [primaryKey, setPrimaryKey] = useState("");
-  // const [researchLevel, setResearchLevel] = useState(0);
+  const [researchLevel, setResearchLevel] = useState(0);
   const [personalityTags, setPersonalityTags] =
     useState<tagType[]>(personalities);
   const [toneTags, setToneTags] = useState<tagType[]>(tones);
@@ -79,7 +79,6 @@ const Sidebar = () => {
     }
     setToneTags(updatedTags);
   };
-
   const allFieldsFilled =
     useCase &&
     primaryKey &&
@@ -96,13 +95,12 @@ const Sidebar = () => {
         const metadata = {
           useCase: useCase,
           primaryKey: primaryKey,
-          researchLevel: 50,
+          researchLevel: researchLevel,
           personality: selectedPersonalityTags.map((tag) => tag.name),
           tone: selectedToneTags.map((tag) => tag.name),
           language: language,
         };
         try {
-          console.log(metadata);
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents/create`,
             { metadata },
@@ -154,7 +152,7 @@ const Sidebar = () => {
         </div>
 
         {/* Research level slider */}
-        <ProgressBar />
+        <ProgressBar setResearchLevel={setResearchLevel} />
 
         {/* Personality dropdown */}
         <div className="mb-4">
@@ -248,7 +246,7 @@ const Sidebar = () => {
             <label className="block font-medium">Set language</label>
             {languageOpen ? <FiChevronUp /> : <FiChevronDown />}
           </div>
-          {languageOpen && (
+          {languageOpen ? (
             <div className="mt-2 border border-gray-300 rounded-lg">
               {["English", "Hindi", "French", "Pashto", "German"].map((l) => (
                 <button
@@ -268,6 +266,10 @@ const Sidebar = () => {
                   {l}
                 </button>
               ))}
+            </div>
+          ) : (
+            <div className="mt-2 border border-gray-300 rounded-lg px-2">
+              {language}
             </div>
           )}
         </div>
