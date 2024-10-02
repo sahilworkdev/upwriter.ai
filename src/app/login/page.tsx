@@ -30,7 +30,7 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const url = `${process.env.SOURCE_URL}/api/users/login`;
+    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/users/login`;
 
     try {
       const res = await axios.post(url, formData);

@@ -38,7 +38,7 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
-    const url = `${process.env.SOURCE_URL}/api/users/register`;
+    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/users/register`;
 
     try {
       const res = await axios.post(url, formData);

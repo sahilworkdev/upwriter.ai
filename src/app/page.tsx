@@ -1,14 +1,10 @@
-import Dashboard from "./components/Dashboard";
-import Navbar from "./components/Navbar";
+import Home from "./Home/home";
 import { AuthProvider } from "./authContext/Context";
 
-export default function Home() {
+export default function App() {
   return (
     <AuthProvider>
-      <main>
-        <Navbar />
-        <Dashboard />
-      </main>
+      <Home />
     </AuthProvider>
   );
 }

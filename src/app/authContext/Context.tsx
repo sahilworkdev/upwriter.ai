@@ -22,13 +22,13 @@ type AuthContextType = {
   logIn: (userData: AuthResponseType) => void;
 };
 
-export const AuthContext = createContext({
+export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   firstName: "",
   lastName: "",
   email: "",
   logOut: () => {},
-  logIn: (userData: AuthResponseType) => {},
+  logIn: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {

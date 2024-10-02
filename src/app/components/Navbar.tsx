@@ -17,10 +17,10 @@ const Navbar = () => {
     const userJson = localStorage.getItem("user");
     if (userJson) {
       const user = JSON.parse(userJson);
-      const url = "https://1c1b-45-118-156-98.ngrok-free.app/api/users/logout";
+      const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/users/logout`;
       const refreshToken = user.refreshToken;
       try {
-        const res = await axios.post(url, refreshToken);
+        const res = await axios.post(url, { refreshToken });
         if (res.status === 200) logOut();
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {

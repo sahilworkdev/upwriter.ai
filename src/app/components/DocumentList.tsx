@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Table from "./Table";
 import { FaStar } from "react-icons/fa";
@@ -24,15 +23,16 @@ function DocumentList() {
         const accessToken = user.accessToken;
         try {
           const response = await axios.get(
-            `${process.env.SOURCE_URL}/api/documents`,
+            `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
             }
           );
-          console.log(response);
+
           if (response.status === 200) {
+            console.log(response.data);
             // Handle successful response if needed
           }
         } catch (error) {
