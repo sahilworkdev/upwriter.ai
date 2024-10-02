@@ -15,6 +15,7 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,17 +32,21 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/users/login`;
-
     try {
       const res = await axios.post(url, formData);
-      console.log(res);
-      if (res.status == 200) {
+      if (res.status === 200) {
         logIn(res.data);
-        setTimeout(() => router.push("/"), 2000);
+        router.push("/");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        console.log(error.response?.data?.message || error.message);
+        if (error.response?.status === 404) {
+          setError("User does not exist.");
+        } else if (error.response?.status === 401) {
+          setError("Incorrect password.");
+        } else {
+          setError(error.response?.data?.message || error.message);
+        }
       }
     }
   };
@@ -89,6 +94,7 @@ const Login = () => {
               </span>
             </div>
           </div>
+          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
           <button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-[#6366F1] rounded-md hover:bg-[#474BFF] border-none"

@@ -4,16 +4,79 @@ import DocumentList from "./DocumentList";
 import Sidebar from "./Sidebar";
 import { CiPen } from "react-icons/ci";
 import { useState, useEffect } from "react";
-import { useContext } from "react";
-import { AuthContext } from "../authContext/Context";
-import Login from "../login/page";
+import axios from "axios";
+
+type DataObject = {
+  _id: string;
+  content: string;
+  metadata: Metadata;
+  isDeleted: boolean;
+  isFavorite: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+type DocumentInfo = {
+  name: string;
+  words: number;
+  modified: string;
+  favourite: boolean;
+};
+type Metadata = {
+  useCase: string;
+  primaryKey: string;
+  researchLevel: number;
+  personality: string[];
+  tone: string[];
+  language: string;
+  _id: string;
+};
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { isLoggedIn } = useContext(AuthContext);
+  const [documents, setDocuments] = useState<DocumentInfo[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const userJson = localStorage.getItem("user");
+      if (userJson) {
+        const user = JSON.parse(userJson);
+        const accessToken = user.accessToken;
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            // console.log(response.data);
+            const data: DocumentInfo[] = response.data.map(
+              (doc: DataObject) => {
+                return {
+                  name: doc.content,
+                  words: 0,
+                  modified: doc.updatedAt,
+                  favourite: doc.isFavorite,
+                };
+              }
+            );
+            setDocuments(data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchData();
+  }, []);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  const handleDocumentSubmit = async (data: DocumentInfo) => {
+    setDocuments((prevDocuments) => [data, ...prevDocuments]);
+  };
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -28,8 +91,7 @@ const Dashboard = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log("Dashboard render", isLoggedIn);
-  return isLoggedIn ? (
+  return (
     <main className="w-full p-4 ">
       <div className="flex gap-4">
         <div
@@ -38,16 +100,16 @@ const Dashboard = () => {
           }`}
         >
           <div className="relative w-full top-24 left-0">
-            <Sidebar />
+            <Sidebar handleDocumentSubmit={handleDocumentSubmit} />
           </div>
         </div>
 
         <div className={`w-[300px] max-w-[400px] hidden md:block`}>
-          <Sidebar />
+          <Sidebar handleDocumentSubmit={handleDocumentSubmit} />
         </div>
 
         <div className="flex-grow">
-          <DocumentList />
+          <DocumentList documents={documents} />
         </div>
       </div>
 
@@ -60,8 +122,6 @@ const Dashboard = () => {
         </div>
       </div>
     </main>
-  ) : (
-    <Login />
   );
 };
 

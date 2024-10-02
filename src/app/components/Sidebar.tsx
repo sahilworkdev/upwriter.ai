@@ -11,6 +11,12 @@ type tagType = {
   name: string;
   isSelected: boolean;
 };
+type DocumentInfo = {
+  name: string;
+  words: number;
+  modified: string;
+  favourite: boolean;
+};
 const personalities = [
   { name: "informative", isSelected: false },
   { name: "formal", isSelected: false },
@@ -22,7 +28,11 @@ const tones = [
   { name: "Factdriven", isSelected: false },
   { name: "Knowledgeable", isSelected: false },
 ];
-const Sidebar = () => {
+const Sidebar = ({
+  handleDocumentSubmit,
+}: {
+  handleDocumentSubmit: (data: DocumentInfo) => void;
+}) => {
   const [useCase, setUseCase] = useState("");
   const [primaryKey, setPrimaryKey] = useState("");
   const [researchLevel, setResearchLevel] = useState(0);
@@ -110,9 +120,16 @@ const Sidebar = () => {
               },
             }
           );
+
           console.log(response);
           if (response.status === 201) {
-            console.log(response.data);
+            const data = {
+              name: response.data.content,
+              words: 0,
+              modified: response.data.updatedAt,
+              favourite: response.data.isFavorite,
+            };
+            handleDocumentSubmit(data);
           }
         } catch (error) {
           console.log(error);

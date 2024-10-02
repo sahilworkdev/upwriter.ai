@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaStar, FaRegStar, FaRegFileAlt, FaFileAlt } from "react-icons/fa";
+import { FaStar, FaRegStar, FaFileAlt } from "react-icons/fa"; //FaRegFileAlt
 import { FaEllipsisVertical } from "react-icons/fa6";
 
 type Props = {
@@ -39,7 +39,7 @@ function TableRow({ data }: Props) {
 
 function Td({
   children,
-  wrap,
+  //wrap,
   className = "",
 }: Readonly<{
   children: React.ReactNode;

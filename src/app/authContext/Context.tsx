@@ -51,12 +51,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   function logOut() {
-    localStorage.removeItem("user");
-    console.log("logout");
     setIsLoggedIn(false);
     setFirstName("");
     setLastName("");
     setEmail("");
+    localStorage.removeItem("user");
   }
   function logIn(userData: AuthResponseType) {
     setIsLoggedIn(true);

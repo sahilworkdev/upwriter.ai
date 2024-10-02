@@ -6,7 +6,6 @@ import Navbar from "../components/Navbar";
 import Dashboard from "../components/Dashboard";
 export default function Home() {
   const { isLoggedIn } = useContext(AuthContext);
-  console.log("Home render", isLoggedIn);
   return isLoggedIn ? (
     <main>
       <Navbar />
