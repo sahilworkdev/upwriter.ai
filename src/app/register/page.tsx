@@ -26,12 +26,37 @@ const Register = () => {
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [errors, setErrors] = useState({
+    phoneNumber: "",
+    password: "",
+  });
   const router = useRouter();
+
+  const validateForm = () => {
+    let formIsValid = true;
+    const newErrors = {
+      phoneNumber: "",
+      password: "",
+    };
+
+    if (formData.phoneNumber.toString().length !== 10) {
+      newErrors.phoneNumber = "Phone number must be exactly 10 digits.";
+      formIsValid = false;
+    }
+
+    if (formData.password.length < 8) {
+      newErrors.password = "Password must be of 8 characters";
+      formIsValid = false;
+    }
+
+    setErrors(newErrors);
+    return formIsValid;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value: string | number = e.target.value;
     if (e.target.name === "phoneNumber") {
-      value = Number(e.target.value);
+      value = value.length === 0 ? "" : Number(e.target.value);
     }
     setFormData({
       ...formData,
@@ -42,6 +67,7 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
+    if (!validateForm()) return;
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/users/register`;
 
     try {
@@ -120,6 +146,9 @@ const Register = () => {
               required
               className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border rounded-md outline-none"
             />
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -145,6 +174,9 @@ const Register = () => {
                 )}
               </span>
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
           <button
             type="submit"

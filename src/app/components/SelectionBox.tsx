@@ -30,7 +30,7 @@ function SelectionBox({ tags, placeholder, handleSelect }: ComboBoxTagProps) {
         value={searchTerm}
         onChange={handleSearch}
         placeholder={placeholder}
-        className="border px-2 py-1"
+        className="border px-2 py-1 outline-none rounded-lg mb-1"
       />
       <div className="flex flex-wrap">
         {filteredTags.map((tag) => (
@@ -44,7 +44,7 @@ function SelectionBox({ tags, placeholder, handleSelect }: ComboBoxTagProps) {
 function Tag({ tag, onClick }: { tag: tagType; onClick: () => void }) {
   return (
     <span
-      className={` border-2 border-gray-200 px-2 py-1 rounded-lg m-1 cursor-pointer ${
+      className={` border-2 border-gray-200 px-2 py-1 hover:border-[#6366f1] rounded-lg m-1 cursor-pointer ${
         tag.isSelected ? "bg-[#6366f1] text-white" : "bg-gray-100"
       }`}
       onClick={onClick}

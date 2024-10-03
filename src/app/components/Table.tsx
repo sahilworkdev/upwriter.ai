@@ -2,6 +2,7 @@ import React from "react";
 import TableRow from "./TableRow";
 
 type DocumentInfo = {
+  id: string;
   name: string;
   words: number;
   modified: string;
@@ -10,9 +11,13 @@ type DocumentInfo = {
 function Table({
   favourites,
   documents,
+  handleFavouriteUpdate,
+  handleDeleteData,
 }: {
   favourites: boolean;
   documents: DocumentInfo[];
+  handleFavouriteUpdate: (id: string) => void;
+  handleDeleteData: (id: string) => void;
 }) {
   const data = documents;
 
@@ -30,11 +35,23 @@ function Table({
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {data.map((item, i) =>
+          {data.map((item) =>
             favourites ? (
-              item.favourite && <TableRow key={i} data={item} />
+              item.favourite && (
+                <TableRow
+                  key={item.id}
+                  data={item}
+                  handleFavouriteUpdate={handleFavouriteUpdate}
+                  handleDeleteData={handleDeleteData}
+                />
+              )
             ) : (
-              <TableRow key={i} data={item} />
+              <TableRow
+                key={item.id}
+                data={item}
+                handleFavouriteUpdate={handleFavouriteUpdate}
+                handleDeleteData={handleDeleteData}
+              />
             )
           )}
         </tbody>

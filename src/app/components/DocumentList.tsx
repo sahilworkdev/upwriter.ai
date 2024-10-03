@@ -7,12 +7,21 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import Editor from "./Editor";
 
 type DocumentInfo = {
+  id: string;
   name: string;
   words: number;
   modified: string;
   favourite: boolean;
 };
-function DocumentList({ documents }: { documents: DocumentInfo[] }) {
+function DocumentList({
+  documents,
+  handleFavouriteUpdate,
+  handleDeleteData,
+}: {
+  documents: DocumentInfo[];
+  handleFavouriteUpdate: (id: string) => void;
+  handleDeleteData: (id: string) => void;
+}) {
   const [favouritesON, setFavouritesON] = useState(false);
   const [showDocuments, setShowDocuments] = useState(false);
 
@@ -60,7 +69,12 @@ function DocumentList({ documents }: { documents: DocumentInfo[] }) {
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
-              <Table favourites={favouritesON} documents={documents} />
+              <Table
+                favourites={favouritesON}
+                documents={documents}
+                handleFavouriteUpdate={handleFavouriteUpdate}
+                handleDeleteData={handleDeleteData}
+              />
             </div>
           </div>
         </div>

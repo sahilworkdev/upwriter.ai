@@ -6,12 +6,13 @@ import SelectionBox from "./SelectionBox";
 import ProgressBar from "./ProgressBar";
 import { CiPen } from "react-icons/ci";
 import axios from "axios";
-
+import LanguageDropdown from "./LanguageDropdown";
 type tagType = {
   name: string;
   isSelected: boolean;
 };
 type DocumentInfo = {
+  id: string;
   name: string;
   words: number;
   modified: string;
@@ -31,7 +32,7 @@ const tones = [
 const Sidebar = ({
   handleDocumentSubmit,
 }: {
-  handleDocumentSubmit: (data: DocumentInfo) => void;
+  handleDocumentSubmit: (data: DocumentInfo) => Promise<void>;
 }) => {
   const [useCase, setUseCase] = useState("");
   const [primaryKey, setPrimaryKey] = useState("");
@@ -46,7 +47,7 @@ const Sidebar = ({
   const [language, setLanguage] = useState("");
   const [personalityOpen, setPersonalityOpen] = useState(false);
   const [toneOpen, setToneOpen] = useState(false);
-  const [languageOpen, setLanguageOpen] = useState(false);
+  // const [languageOpen, setLanguageOpen] = useState(false);
 
   const handlePersonalitySelect = (selectedTag: tagType) => {
     const updatedTags = personalityTags.map((tag) =>
@@ -120,16 +121,21 @@ const Sidebar = ({
               },
             }
           );
-
-          console.log(response);
           if (response.status === 201) {
             const data = {
+              id: response.data._id,
               name: response.data.content,
               words: 0,
               modified: response.data.updatedAt,
               favourite: response.data.isFavorite,
             };
             handleDocumentSubmit(data);
+            setUseCase("");
+            setPrimaryKey("");
+            setResearchLevel(1);
+            setLanguage("");
+            setSelectedPersonalityTags([]);
+            setSelectedToneTags([]);
           }
         } catch (error) {
           console.log(error);
@@ -139,32 +145,41 @@ const Sidebar = ({
   };
 
   return (
-    <div className="min-h-[85vh] w-full max-w-xs bg-gray-100 rounded-md border border-gray-300 p-4">
+    <div className="min-h-screen sm:min-h-[87vh] overflow-hidden w-full bg-gray-100 rounded-md border border-gray-300 p-4">
       <h2 className="text-lg font-bold mb-4">Write with AI</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block font-medium mb-1">Choose use cases</label>
+          <label className="block text-[#64748B] font-medium mb-1">
+            Choose use cases
+          </label>
           <select
             value={useCase}
             onChange={(e) => setUseCase(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2  border border-gray-300 rounded-md outline-none"
           >
             <option value="">Select use case</option>
             <option value="Blog Ideas and outlines">
               Blog Ideas and outlines
             </option>
+            <option className="hover:bg-[#6366f1]" value="Bussiness Ideas">
+              Bussiness Ideas
+            </option>
+            <option value="Tech Event Ideas">Tech Event Ideas</option>
+            <option value="Marketing Events">Marketing Events</option>
           </select>
         </div>
 
         {/* Primary primaryKey input */}
         <div className="mb-4">
-          <label className="block font-medium mb-1">Primary primaryKey</label>
+          <label className="block text-[#64748B] font-medium mb-1">
+            Primary Keywords
+          </label>
           <input
             type="text"
             value={primaryKey}
             onChange={(e) => setPrimaryKey(e.target.value)}
             placeholder="AI writing assistant"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none"
           />
         </div>
 
@@ -179,10 +194,12 @@ const Sidebar = ({
               e.stopPropagation();
               setPersonalityOpen(!personalityOpen);
               setToneOpen(false);
-              setLanguageOpen(false);
+              // setLanguageOpen(false);
             }}
           >
-            <label className="block font-medium">Set personality</label>
+            <label className="block text-[#64748B] font-medium mb-1">
+              Set personality
+            </label>
             {personalityOpen ? <FiChevronUp /> : <FiChevronDown />}
           </div>
           {personalityOpen ? (
@@ -217,10 +234,12 @@ const Sidebar = ({
               e.stopPropagation();
               setToneOpen(!toneOpen);
               setPersonalityOpen(false);
-              setLanguageOpen(false);
+              // setLanguageOpen(false);
             }}
           >
-            <label className="block font-medium">Set tone</label>
+            <label className="block text-[#64748B] font-medium mb-1">
+              Set tone
+            </label>
             {toneOpen ? <FiChevronUp /> : <FiChevronDown />}
           </div>
           {toneOpen ? (
@@ -250,7 +269,7 @@ const Sidebar = ({
         </div>
 
         {/* Language dropdown */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <div
             className="flex justify-between items-center cursor-pointer"
             onClick={(e) => {
@@ -260,7 +279,9 @@ const Sidebar = ({
               setPersonalityOpen(false);
             }}
           >
-            <label className="block font-medium">Set language</label>
+            <label className="block text-[#64748B] font-medium mb-1">
+              Set language
+            </label>
             {languageOpen ? <FiChevronUp /> : <FiChevronDown />}
           </div>
           {languageOpen ? (
@@ -289,12 +310,17 @@ const Sidebar = ({
               {language}
             </div>
           )}
-        </div>
+        </div> */}
+        <LanguageDropdown
+          selectedLanguage={language}
+          setLanguage={setLanguage}
+          setToneOpen={setToneOpen}
+        />
         <button
           type="submit"
-          className={`flex gap-1 justify-center items-center cursor-pointer w-full px-4 py-2 mt-4 font-bold rounded-md ${
+          className={`flex gap-2 justify-center items-center cursor-pointer w-full px-4 py-2 mt-8 font-semibold rounded-md ${
             allFieldsFilled
-              ? "bg-blue-500 text-white"
+              ? "bg-[#6366f1] text-white"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           disabled={!allFieldsFilled}

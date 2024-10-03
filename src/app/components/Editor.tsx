@@ -2,8 +2,14 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+// import { Delta, Sources } from "quill";
+
 import "../globals.css";
 
-export default function Editor() {
-  return <ReactQuill theme="snow"></ReactQuill>;
+type EditorProps = {
+  value?: string | undefined;
+  onChange?: (content: string) => void;
+};
+export default function Editor({ value, onChange }: EditorProps) {
+  return <ReactQuill theme="snow" value={value} onChange={onChange} />;
 }
