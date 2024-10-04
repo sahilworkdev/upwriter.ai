@@ -110,8 +110,8 @@ const Dashboard = () => {
             }
           );
 
-          if (response.status === 200) {
-            const data: DocumentInfo[] = response.data.map(
+          if (response.status === 200 && response.data.status) {
+            const data: DocumentInfo[] = response.data.documents.map(
               (doc: DataObject) => {
                 return {
                   id: doc._id,
@@ -131,6 +131,8 @@ const Dashboard = () => {
     };
     fetchData();
   }, []);
+
+  
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -211,7 +213,7 @@ const Dashboard = () => {
               onChange={handleEditorTextChange}
             />
             <button
-              className="text-white bg-[#474bff] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-500"
+              className="text-white bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-600"
               onClick={handleEditorSubmit}
             >
               Save document

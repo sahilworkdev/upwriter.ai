@@ -22,6 +22,13 @@ const personalities = [
   { name: "informative", isSelected: false },
   { name: "formal", isSelected: false },
   { name: "storyteller", isSelected: false },
+  { name: "visinory", isSelected: false },
+  { name: "proactive", isSelected: false },
+  { name: "empathetic", isSelected: false },
+  { name: "humorous/playful", isSelected: false },
+  { name: "conversational/friendly", isSelected: false },
+  { name: "analytical", isSelected: false },
+  { name: "persuasive", isSelected: false },
 ];
 
 const tones = [
@@ -29,6 +36,7 @@ const tones = [
   { name: "Factdriven", isSelected: false },
   { name: "Knowledgeable", isSelected: false },
 ];
+
 const Sidebar = ({
   handleDocumentSubmit,
 }: {
@@ -70,25 +78,37 @@ const Sidebar = ({
     setPersonalityTags(updatedTags);
   };
 
-  const handleToneSelect = (selectedTag: tagType) => {
-    const updatedTags = toneTags.map((tag) =>
-      tag.name === selectedTag.name
-        ? { ...tag, isSelected: !tag.isSelected }
-        : tag
-    );
+  // const handleToneSelect = (selectedTag: tagType) => {
+  //   const updatedTags = toneTags.map((tag) =>
+  //     tag.name === selectedTag.name
+  //       ? { ...tag, isSelected: !tag.isSelected }
+  //       : tag
+  //   );
 
-    if (selectedTag.isSelected) {
-      const updatedTags = selectedToneTags.filter(
-        (tag) => tag.name !== selectedTag.name
-      );
-      setSelectedToneTags(updatedTags);
-    } else {
-      setSelectedToneTags((prevSelected) => [
-        ...prevSelected,
-        { ...selectedTag, isSelected: true },
-      ]);
+  //   if (selectedTag.isSelected) {
+  //     const updatedTags = selectedToneTags.filter(
+  //       (tag) => tag.name !== selectedTag.name
+  //     );
+  //     setSelectedToneTags(updatedTags);
+  //   } else {
+  //     setSelectedToneTags((prevSelected) => [
+  //       ...prevSelected,
+  //       { ...selectedTag, isSelected: true },
+  //     ]);
+  //   }
+  //   setToneTags(updatedTags);
+  // };
+  const handleToneSelect = (selectedTag: tagType) => {
+    const updatedTags = toneTags.map((tag) =>{
+      if(tag.name === selectedTag.name)
+        return { ...tag, isSelected: !tag.isSelected }
+      return {...tag,isSelected:false}
     }
+    );
     setToneTags(updatedTags);
+    setSelectedToneTags( [
+      { ...selectedTag, isSelected: true },
+    ]);
   };
   const allFieldsFilled =
     useCase &&
@@ -121,13 +141,13 @@ const Sidebar = ({
               },
             }
           );
-          if (response.status === 201) {
+          if (response.status === 201 && response.data.status) {
             const data = {
-              id: response.data._id,
-              name: response.data.content,
+              id: response.data.document._id,
+              name: response.data.document.content,
               words: 0,
-              modified: response.data.updatedAt,
-              favourite: response.data.isFavorite,
+              modified: response.data.document.updatedAt,
+              favourite: response.data.document.isFavorite,
             };
             handleDocumentSubmit(data);
             setUseCase("");
@@ -325,7 +345,7 @@ const Sidebar = ({
           }`}
           disabled={!allFieldsFilled}
         >
-          <CiPen className="text-black" />
+          <CiPen className={`${allFieldsFilled && "text-white"}text-black text-xl`} />
           Write for me
         </button>
       </form>

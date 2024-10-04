@@ -1,4 +1,4 @@
-import { FaStar, FaRegStar, FaFileAlt } from "react-icons/fa"; //FaRegFileAlt
+import { FaStar, FaRegStar, FaFileAlt } from "react-icons/fa"; 
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { CiEdit } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
@@ -85,7 +85,7 @@ function Td({
 function Options({ id, handleDeleteData }: optionProps) {
   const [modalOpen, setModalOpen] = useState(false);
   return (
-    <div className="absolute">
+    <div>
       <FaEllipsisVertical
         className="cursor-pointer"
         size={18}
@@ -94,25 +94,25 @@ function Options({ id, handleDeleteData }: optionProps) {
       />
       {modalOpen && (
         <div
-          className="absolute rounded-md flex flex-col gap-2 overflow-y-auto p-4 bg-white shadow-lg z-10"
+          className="absolute right-6 rounded-lg flex flex-col gap-2 overflow-y-auto p-4 bg-white shadow-lg z-10"
           onClick={() => {
             console.log("edit called");
             setModalOpen(false);
           }}
         >
-          <div className="flex gap-1 cursor-pointer">
-            <CiEdit size={18} />
+          <div className="flex gap-2 cursor-pointer">
+            <CiEdit size={18} className="text-blue-600"/>
             <span>Edit</span>
           </div>
 
           <div
-            className="flex gap-1 cursor-pointer"
+            className="flex gap-2 cursor-pointer"
             onClick={() => {
               handleDeleteData(id);
               setModalOpen(false);
             }}
           >
-            <FaTrashAlt size={18} />
+            <FaTrashAlt size={18} className="text-red-500" />
             <span>Delete</span>
           </div>
         </div>

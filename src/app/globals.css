@@ -12,6 +12,9 @@
     text-wrap: balance;
   }
 }
+body{
+  overflow: hidden;
+}
 
 
 /* Hide arrows for number input in Chrome, Safari, Edge, and Opera */
