@@ -40,8 +40,9 @@ function TableRow({ data, handleFavouriteUpdate, handleDeleteData }: Props) {
           style={{ color: "#989898" }}
           className="inline mr-2 hover:cursor-pointer"
         />
-        <span className="hidden sm:inline">{data.name}</span>
-        <span className="sm:hidden">{data.name.slice(0, 10)}...</span>
+        <span className="max-w-[8ch] sm:max-w-[16ch] md:max-w-[25ch] lg:max-w-[50ch] truncate">
+          {data.name}
+        </span>
       </Td>
       <Td className="text-center">{data.words}</Td>
       <Td className="text-center">
