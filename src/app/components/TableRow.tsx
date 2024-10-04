@@ -96,7 +96,6 @@ function Options({ id, handleDeleteData }: optionProps) {
         <div
           className="absolute rounded-md flex flex-col gap-2 overflow-y-auto p-4 bg-white shadow-lg z-10"
           onClick={() => {
-            console.log("edit called");
             setModalOpen(false);
           }}
         >

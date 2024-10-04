@@ -111,6 +111,7 @@ const Sidebar = ({
           tone: selectedToneTags.map((tag) => tag.name),
           language: language,
         };
+        console.log(metadata);
         try {
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents/create`,
@@ -121,13 +122,14 @@ const Sidebar = ({
               },
             }
           );
-          if (response.status === 201) {
+          console.log("response", response);
+          if (response.status === 201 && response.data.status) {
             const data = {
-              id: response.data._id,
-              name: response.data.content,
+              id: response.data.document._id,
+              name: response.data.document.content,
               words: 0,
-              modified: response.data.updatedAt,
-              favourite: response.data.isFavorite,
+              modified: response.data.document.updatedAt,
+              favourite: response.data.document.isFavorite,
             };
             handleDocumentSubmit(data);
             setUseCase("");

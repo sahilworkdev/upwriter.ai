@@ -18,13 +18,6 @@ type DataObject = {
   updatedAt: string;
   __v: number;
 };
-type DocumentInfo = {
-  id: string;
-  name: string;
-  words: number;
-  modified: string;
-  favourite: boolean;
-};
 type Metadata = {
   useCase: string;
   primaryKey: string;
@@ -33,6 +26,13 @@ type Metadata = {
   tone: string[];
   language: string;
   _id: string;
+};
+type DocumentInfo = {
+  id: string;
+  name: string;
+  words: number;
+  modified: string;
+  favourite: boolean;
 };
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -84,7 +84,7 @@ const Dashboard = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(res);
+
         if (res.status === 200) {
           const updatedDocuments = documents.filter((doc) => doc.id !== id);
           setDocuments(updatedDocuments);
@@ -110,8 +110,8 @@ const Dashboard = () => {
             }
           );
 
-          if (response.status === 200) {
-            const data: DocumentInfo[] = response.data.map(
+          if (response.status === 200 && response.data.status) {
+            const data: DocumentInfo[] = response.data.documents.map(
               (doc: DataObject) => {
                 return {
                   id: doc._id,
@@ -211,7 +211,8 @@ const Dashboard = () => {
               onChange={handleEditorTextChange}
             />
             <button
-              className="text-white bg-[#474bff] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-500"
+              className="text-white bg-[#474bff] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-500 bottom-0
+              absolute"
               onClick={handleEditorSubmit}
             >
               Save document

@@ -58,14 +58,13 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
       {isOpen && (
         <div className="mt-2 rounded-md max-h-40 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-thumb-rounded-full">
           {languages.map((language) => (
-            <button
-              type="button"
+            <div
               key={language}
               className={`block w-[95%] text-left px-2 py-1 rounded-md m-1 hover:border-2 hover:border-[#6366f1]`}
               onClick={() => handleLanguageSelect(language)}
             >
               {language}
-            </button>
+            </div>
           ))}
         </div>
       )}
