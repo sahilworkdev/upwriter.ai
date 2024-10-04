@@ -89,7 +89,7 @@ const Navbar = () => {
             {/* Dropdown Menu */}
             {dropdownOpen && (
               <div
-                className="absolute right-0 mt-2  bg-white rounded-md shadow-md z-20"
+                className="absolute right-3 mt-2 w-[150px] bg-white rounded-md shadow-md z-20"
                 style={{ top: "100%", marginTop: "8px" }}
               >
               

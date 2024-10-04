@@ -7,6 +7,7 @@ import ProgressBar from "./ProgressBar";
 import { CiPen } from "react-icons/ci";
 import axios from "axios";
 import LanguageDropdown from "./LanguageDropdown";
+import UseCaseDropdown from "./UseCaseDropdown";
 type tagType = {
   name: string;
   isSelected: boolean;
@@ -77,7 +78,7 @@ const Sidebar = ({
     }
     setPersonalityTags(updatedTags);
   };
-  
+
   const handleToneSelect = (selectedTag: tagType) => {
     const updatedTags = toneTags.map((tag) =>{
       if(tag.name === selectedTag.name)
@@ -148,28 +149,14 @@ const Sidebar = ({
     <div className="min-h-screen sm:min-h-[87vh] overflow-hidden w-full bg-gray-100 rounded-md border border-gray-300 p-4">
       <h2 className="text-lg font-bold mb-4">Write with AI</h2>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-[#64748B] font-medium mb-1">
-            Choose use cases
-          </label>
-          <select
-            value={useCase}
-            onChange={(e) => setUseCase(e.target.value)}
-            className="w-full px-4 py-2  border border-gray-300 rounded-md outline-none"
-          >
-            <option value="">Select use case</option>
-            <option value="Blog Ideas and outlines">
-              Blog Ideas and outlines
-            </option>
-            <option className="hover:bg-[#6366f1]" value="Bussiness Ideas">
-              Bussiness Ideas
-            </option>
-            <option value="Tech Event Ideas">Tech Event Ideas</option>
-            <option value="Marketing Events">Marketing Events</option>
-          </select>
-        </div>
 
-        {/* Primary primaryKey input */}
+        {/* UseCase Drop-down */}
+        <UseCaseDropdown  selectedUseCase={useCase}
+          setUseCase={setUseCase}
+          setToneOpen={setToneOpen} />
+
+
+        {/* Primary primaryKeyword input */}
         <div className="mb-4">
           <label className="block text-[#64748B] font-medium mb-1">
             Primary Keywords

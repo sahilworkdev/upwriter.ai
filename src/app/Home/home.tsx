@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { AuthContext } from "../authContext/Context";
 import Navbar from "../components/Navbar";
 import Dashboard from "../components/Dashboard";
-// import { SnackbarProvider } from "notistack";
 
 
 interface AppContentProps {
@@ -18,6 +17,8 @@ export default function Home() {
       <AppContent isLoggedIn={isLoggedIn} />
   );
 }
+
+// Define the props for AppContent
 
 function AppContent({ isLoggedIn }: AppContentProps) {
   return isLoggedIn ? (

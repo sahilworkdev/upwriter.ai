@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../authContext/Context";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 
 const Login = () => {
   const { logIn } = useContext(AuthContext);
@@ -37,6 +38,7 @@ const Login = () => {
       if (res.status === 200) {
         logIn(res.data);
         router.push("/");
+        enqueueSnackbar("loggedn in", {variant: "success"})
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
