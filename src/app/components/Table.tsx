@@ -29,7 +29,7 @@ function Table({
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>
-            <Th className="text-start">Name</Th>
+            <Th className="text-start pl-8 sm:pl-10">Name</Th>
             <Th className="text-center">Words</Th>
             <Th className="text-center">Modified</Th>
           </tr>

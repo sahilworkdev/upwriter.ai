@@ -77,27 +77,7 @@ const Sidebar = ({
     }
     setPersonalityTags(updatedTags);
   };
-
-  // const handleToneSelect = (selectedTag: tagType) => {
-  //   const updatedTags = toneTags.map((tag) =>
-  //     tag.name === selectedTag.name
-  //       ? { ...tag, isSelected: !tag.isSelected }
-  //       : tag
-  //   );
-
-  //   if (selectedTag.isSelected) {
-  //     const updatedTags = selectedToneTags.filter(
-  //       (tag) => tag.name !== selectedTag.name
-  //     );
-  //     setSelectedToneTags(updatedTags);
-  //   } else {
-  //     setSelectedToneTags((prevSelected) => [
-  //       ...prevSelected,
-  //       { ...selectedTag, isSelected: true },
-  //     ]);
-  //   }
-  //   setToneTags(updatedTags);
-  // };
+  
   const handleToneSelect = (selectedTag: tagType) => {
     const updatedTags = toneTags.map((tag) =>{
       if(tag.name === selectedTag.name)
