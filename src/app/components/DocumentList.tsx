@@ -85,7 +85,7 @@ function DocumentList({
       {showDocuments && <Editor />}
       {showDocuments && (
         <button
-          className="text-white fixed bottom-10 bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-[#5659e0]"
+          className="text-white fixed sm:bottom-10 bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-[#5659e0]"
           onClick={() => console.log("Save Documents")}
         >
           Save document
