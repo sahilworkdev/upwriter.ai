@@ -45,8 +45,9 @@ const MyEditor: React.FC<EditorProps> = ({ value, onChange }) => {
 
   useEffect(() => {
     if (value) {
-      const contentState = ContentState.createFromText(value);
-      const newEditorState = EditorState.createWithContent(contentState);
+      console.log(value);
+      const contentState = ContentState?.createFromText(value?.toString());
+      const newEditorState = EditorState?.createWithContent(contentState);
       setEditorState(moveCursorToEnd(newEditorState));
     }
   }, [value]);

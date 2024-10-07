@@ -1,4 +1,4 @@
-import { FaStar, FaRegStar, FaFileAlt } from "react-icons/fa"; 
+import { FaStar, FaRegStar, FaFileAlt } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { CiEdit } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
@@ -18,6 +18,17 @@ type optionProps = {
   id: string;
   handleDeleteData: (id: string) => void;
 };
+
+// function countWords(paragraph: any) {
+//   if (!paragraph || typeof paragraph !== 'string') {
+//     console.error('Expected a non-empty string, but received:', paragraph);
+//     return 0;
+//   }
+
+//   // Proceed with word counting
+//   const words = paragraph.trim().replace(/[^\w\s]/g, '').split(/\s+/);
+//   return words.filter((word: string) => word.length > 0).length;
+// }
 
 function TableRow({ data, handleFavouriteUpdate, handleDeleteData }: Props) {
   // Function to format the date
@@ -40,13 +51,16 @@ function TableRow({ data, handleFavouriteUpdate, handleDeleteData }: Props) {
           style={{ color: "#989898" }}
           className="inline mr-2 hover:cursor-pointer"
         />
-        <span className="hidden sm:inline">{data.name}</span>
-        <span className="sm:hidden">{data.name.slice(0, 10)}...</span>
+        {/* <span className="hidden sm:inline">{data.name}</span>
+        <span className="sm:hidden">{data.name.slice(0, 10)}...</span> */}
+        <span className="max-w-[8ch] sm:max-w-[16ch] md:max-w-[25ch] lg:max-w-[50ch] truncate">
+          {data.name}
+        </span>
       </Td>
-      <Td className="text-center">{data.words}</Td>
+      {/* <Td className="text-center">{countWords(data.words)}</Td> */}
       <Td className="text-center">
         <span className="hidden sm:inline">{formatDate(data.modified)}</span>
-        <span className="sm:hidden">{data.modified.slice(0, 10)}...</span>
+        {/* <span className="sm:hidden">{data?.modified.slice(0, 10)}...</span> */}
       </Td>
       <Td>
         <button onClick={() => handleFavouriteUpdate(data.id)}>
@@ -100,10 +114,10 @@ function Options({ id, handleDeleteData }: optionProps) {
             setModalOpen(false);
           }}
         >
-          <div className="flex gap-2 cursor-pointer">
+          {/* <div className="flex gap-2 cursor-pointer">
             <CiEdit size={18} className="text-blue-600"/>
             <span>Edit</span>
-          </div>
+          </div> */}
 
           <div
             className="flex gap-2 cursor-pointer"

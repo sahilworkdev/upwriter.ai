@@ -36,6 +36,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const isValid = localStorage.getItem("user");
+  // console.log(isValid, "isvalid");
 
   useEffect(() => {
     const userJson = localStorage.getItem("user");
@@ -62,6 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setFirstName(userData.user.firstName);
     setLastName(userData.user.lastName);
     setEmail(userData.user.email);
+    // console.log(userData, "frhr");
     const userJson = JSON.stringify(userData);
     localStorage.setItem("user", userJson);
   }

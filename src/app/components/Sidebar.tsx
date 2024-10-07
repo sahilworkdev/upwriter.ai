@@ -12,13 +12,6 @@ type tagType = {
   name: string;
   isSelected: boolean;
 };
-type DocumentInfo = {
-  id: string;
-  name: string;
-  words: number;
-  modified: string;
-  favourite: boolean;
-};
 const personalities = [
   { name: "informative", isSelected: false },
   { name: "formal", isSelected: false },
@@ -41,7 +34,7 @@ const tones = [
 const Sidebar = ({
   handleDocumentSubmit,
 }: {
-  handleDocumentSubmit: (data: DocumentInfo) => Promise<void>;
+  handleDocumentSubmit: (data: any) => Promise<void>;
 }) => {
   const [useCase, setUseCase] = useState("");
   const [primaryKey, setPrimaryKey] = useState("");
@@ -55,8 +48,8 @@ const Sidebar = ({
   const [selectedToneTags, setSelectedToneTags] = useState<tagType[]>([]);
   const [language, setLanguage] = useState("");
   const [personalityOpen, setPersonalityOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [toneOpen, setToneOpen] = useState(false);
-  // const [languageOpen, setLanguageOpen] = useState(false);
 
   const handlePersonalitySelect = (selectedTag: tagType) => {
     const updatedTags = personalityTags.map((tag) =>
@@ -80,16 +73,13 @@ const Sidebar = ({
   };
 
   const handleToneSelect = (selectedTag: tagType) => {
-    const updatedTags = toneTags.map((tag) =>{
-      if(tag.name === selectedTag.name)
-        return { ...tag, isSelected: !tag.isSelected }
-      return {...tag,isSelected:false}
-    }
-    );
+    const updatedTags = toneTags.map((tag) => {
+      if (tag.name === selectedTag.name)
+        return { ...tag, isSelected: !tag.isSelected };
+      return { ...tag, isSelected: false };
+    });
     setToneTags(updatedTags);
-    setSelectedToneTags( [
-      { ...selectedTag, isSelected: true },
-    ]);
+    setSelectedToneTags([{ ...selectedTag, isSelected: true }]);
   };
   const allFieldsFilled =
     useCase &&
@@ -97,8 +87,10 @@ const Sidebar = ({
     selectedPersonalityTags.length > 0 &&
     selectedToneTags.length > 0 &&
     language;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // console.log("helloo");
     const userJson = localStorage.getItem("user");
     if (userJson) {
       const user = JSON.parse(userJson);
@@ -106,15 +98,19 @@ const Sidebar = ({
       if (allFieldsFilled) {
         const metadata = {
           useCase: useCase,
-          primaryKey: primaryKey,
+          title: primaryKey,
           researchLevel: researchLevel,
           personality: selectedPersonalityTags.map((tag) => tag.name),
-          tone: selectedToneTags.map((tag) => tag.name),
+          tone: selectedToneTags.length > 0 ? selectedToneTags[0].name : "", // Change here
           language: language,
         };
+        // console.log(metadata, 'meta data');
+        setLoading(true);
         try {
+          // console.log({ accessToken });
           const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents/create`,
+            // `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/create`,
+            "https://7453-2401-4900-8841-38da-30f0-a3f7-fa1f-a0ad.ngrok-free.app/documents/create",
             { metadata },
             {
               headers: {
@@ -122,13 +118,11 @@ const Sidebar = ({
               },
             }
           );
-          if (response.status === 201 && response.data.status) {
+          // console.log(response, 'response');
+          if (response?.data?.status) {
             const data = {
-              id: response.data.document._id,
-              name: response.data.document.content,
-              words: 0,
-              modified: response.data.document.updatedAt,
-              favourite: response.data.document.isFavorite,
+              id: response?.data?.data?._id,
+              name: response?.data?.data?.content,
             };
             handleDocumentSubmit(data);
             setUseCase("");
@@ -140,21 +134,22 @@ const Sidebar = ({
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          setLoading(false);
         }
       }
     }
   };
-
   return (
     <div className="min-h-screen sm:min-h-[87vh] overflow-hidden w-full bg-gray-100 rounded-md border border-gray-300 p-4">
       <h2 className="text-lg font-bold mb-4">Write with AI</h2>
       <form onSubmit={handleSubmit}>
-
         {/* UseCase Drop-down */}
-        <UseCaseDropdown  selectedUseCase={useCase}
+        <UseCaseDropdown
+          selectedUseCase={useCase}
           setUseCase={setUseCase}
-          setToneOpen={setToneOpen} />
-
+          setToneOpen={setToneOpen}
+        />
 
         {/* Primary primaryKeyword input */}
         <div className="mb-4">
@@ -255,49 +250,6 @@ const Sidebar = ({
           )}
         </div>
 
-        {/* Language dropdown */}
-        {/* <div className="mb-4">
-          <div
-            className="flex justify-between items-center cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLanguageOpen(!languageOpen);
-              setToneOpen(false);
-              setPersonalityOpen(false);
-            }}
-          >
-            <label className="block text-[#64748B] font-medium mb-1">
-              Set language
-            </label>
-            {languageOpen ? <FiChevronUp /> : <FiChevronDown />}
-          </div>
-          {languageOpen ? (
-            <div className="mt-2 border border-gray-300 rounded-lg">
-              {["English", "Hindi", "French", "Pashto", "German"].map((l) => (
-                <button
-                  type="button"
-                  key={l}
-                  className={`block w-full text-left px-4 py-2 hover:bg-blue-100 ${
-                    language === l ? "bg-blue-100" : ""
-                  }`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setLanguage(l);
-                    setLanguageOpen(false);
-                    setToneOpen(false);
-                    setPersonalityOpen(false);
-                  }}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className="mt-2 border border-gray-300 rounded-lg px-2">
-              {language}
-            </div>
-          )}
-        </div> */}
         <LanguageDropdown
           selectedLanguage={language}
           setLanguage={setLanguage}
@@ -311,9 +263,12 @@ const Sidebar = ({
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           disabled={!allFieldsFilled}
+          // onClick={() => console.log("btn clicked")}
         >
-          <CiPen className={`${allFieldsFilled && "text-white"}text-black text-xl`} />
-          Write for me
+          <CiPen
+            className={`${allFieldsFilled && "text-white"}text-black text-xl`}
+          />
+          {loading ? "Writing..." : "Write for me"}
         </button>
       </form>
     </div>

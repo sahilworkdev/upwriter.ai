@@ -6,8 +6,7 @@ import { CiPen } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "./Editor";
-// import { UnprivilegedEditor } from "react-quill";
-// import { Delta, Sources } from "quill";
+
 type DataObject = {
   _id: string;
   content: string;
@@ -17,13 +16,6 @@ type DataObject = {
   createdAt: string;
   updatedAt: string;
   __v: number;
-};
-type DocumentInfo = {
-  id: string;
-  name: string;
-  words: number;
-  modified: string;
-  favourite: boolean;
 };
 type Metadata = {
   useCase: string;
@@ -36,30 +28,30 @@ type Metadata = {
 };
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [documents, setDocuments] = useState<DocumentInfo[]>([]);
-  const [editorText, setEditorText] = useState<DocumentInfo>({
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [editorText, setEditorText] = useState<any>({
     id: "",
     name: "",
-    words: 0,
+    words: "",
     modified: "",
     favourite: false,
   });
   const [showEditor, setShowEditor] = useState(false);
 
   const handleFavouriteUpdate = async (id: string) => {
-    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents/${id}`;
+    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/${id}`;
     const userJson = localStorage.getItem("user");
     if (userJson) {
       const user = JSON.parse(userJson);
       const accessToken = user.accessToken;
-      console.log(accessToken);
+      // console.log(accessToken);
       try {
         const res = await axios.put(url, null, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           const updatedDocuments = [...documents];
           const index = updatedDocuments.findIndex((doc) => doc.id === id);
@@ -73,7 +65,7 @@ const Dashboard = () => {
     }
   };
   const handleDeleteData = async (id: string) => {
-    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents/${id}`;
+    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/${id}`;
     const userJson = localStorage.getItem("user");
     if (userJson) {
       const user = JSON.parse(userJson);
@@ -84,7 +76,7 @@ const Dashboard = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           const updatedDocuments = documents.filter((doc) => doc.id !== id);
           setDocuments(updatedDocuments);
@@ -95,56 +87,60 @@ const Dashboard = () => {
     }
   };
   useEffect(() => {
-    const fetchData = async () => {
-      const userJson = localStorage.getItem("user");
-      if (userJson) {
-        const user = JSON.parse(userJson);
-        const accessToken = user.accessToken;
-        try {
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents`,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-
-          if (response.status === 200 && response.data.status) {
-            const data: DocumentInfo[] = response.data.documents.map(
-              (doc: DataObject) => {
-                return {
-                  id: doc._id,
-                  name: doc.content,
-                  words: 0,
-                  modified: doc.updatedAt,
-                  favourite: doc.isFavorite,
-                };
-              }
-            );
-            setDocuments(data);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
     fetchData();
   }, []);
 
-  
+  const fetchData = async () => {
+    const userJson = localStorage.getItem("user");
+    if (userJson) {
+      const user = JSON.parse(userJson);
+      const accessToken = user.accessToken;
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "ngrok-skip-browser-warning": true,
+            },
+          }
+        );
+
+        // console.log(response, "rseponse in document list");
+
+        if (response?.data?.status) {
+          const data: any = response.data.data.map((doc: DataObject) => {
+            // console.log("content:", doc.content)
+            return {
+              id: doc._id,
+              name: doc.content,
+              words: "",
+              modified: doc.updatedAt,
+              favourite: doc.isFavorite,
+            };
+          });
+          setDocuments(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  const handleDocumentSubmit = async (data: DocumentInfo) => {
+  const handleDocumentSubmit = async (data: any) => {
     setDocuments((prevDocuments) => [data, ...prevDocuments]);
     setEditorText(data);
     setShowEditor(true);
     setIsSidebarOpen(false);
   };
+
   const handleEditorSubmit = async () => {
-    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/documents/updateContent/${editorText.id}`;
+    console.log(editorText, "...");
+    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/content/${editorText?.id}`;
     const userJson = localStorage.getItem("user");
+    console.log(userJson, "user json");
     if (userJson) {
       const user = JSON.parse(userJson);
       const accessToken = user.accessToken;
@@ -158,6 +154,8 @@ const Dashboard = () => {
             },
           }
         );
+
+        // console.log(res, "response in update", editorText);
 
         if (res.status === 200) {
           const updatedDocuments = [...documents];
@@ -173,6 +171,8 @@ const Dashboard = () => {
       }
     }
   };
+
+  // console.log(editorText, "editro text");
 
   const handleEditorTextChange = (content: string) => {
     setEditorText({ ...editorText, name: content });

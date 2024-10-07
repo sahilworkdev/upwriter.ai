@@ -30,7 +30,7 @@ function Table({
         <thead>
           <tr>
             <Th className="text-start pl-8 sm:pl-10">Name</Th>
-            <Th className="text-center">Words</Th>
+            {/* <Th className="text-center">Words</Th> */}
             <Th className="text-center">Modified</Th>
           </tr>
         </thead>

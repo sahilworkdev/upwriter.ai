@@ -6,6 +6,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../authContext/Context";
 import { useRouter } from "next/navigation";
+import Loading from "../components/Loading";
 
 interface FormData {
   firstName: string;
@@ -26,6 +27,7 @@ const Register = () => {
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState({
     phoneNumber: "",
     password: "",
@@ -68,7 +70,8 @@ const Register = () => {
     e.preventDefault();
     console.log(formData);
     if (!validateForm()) return;
-    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/users/register`;
+    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/user/register`;
+    setLoading(true);
 
     try {
       const res = await axios.post(url, formData);
@@ -82,6 +85,8 @@ const Register = () => {
       if (axios.isAxiosError(error)) {
         console.log(error.response?.data?.message || error.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,6 +94,10 @@ const Register = () => {
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">

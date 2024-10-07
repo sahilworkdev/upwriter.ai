@@ -71,11 +71,18 @@ function DocumentList({
       {!showDocuments && (
         <div className="flex flex-col">
           {documents.length === 0 ? (
-            <p className="text-center text-gray-500 sm:text-3xl font-bold">No documents</p> // No documents message
+            <p className="text-center text-gray-500 sm:text-3xl font-bold">
+              No documents
+            </p> // No documents message
           ) : (
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
-                <Table favourites={favouritesON} documents={documents} handleFavouriteUpdate={handleFavouriteUpdate}  handleDeleteData={handleDeleteData} />
+                <Table
+                  favourites={favouritesON}
+                  documents={documents}
+                  handleFavouriteUpdate={handleFavouriteUpdate}
+                  handleDeleteData={handleDeleteData}
+                />
               </div>
             </div>
           )}

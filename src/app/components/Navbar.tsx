@@ -12,21 +12,21 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false); // New loading state
   const { logOut } = useContext(AuthContext);
-  const router = useRouter();  
-  
+  const router = useRouter();
+
   const handleLogout = async () => {
     setLoading(true); // Set loading to true when logout starts
 
     const userJson = localStorage.getItem("user");
     if (userJson) {
       const user = JSON.parse(userJson);
-      const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/api/users/logout`;
+      const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/user/logout`;
       const refreshToken = user.refreshToken;
-  
+
       try {
         const res = await axios.post(url, { refreshToken });
         if (res.status === 200) {
-          logOut(); 
+          logOut();
           setTimeout(() => {
             router.push("/login");
             setLoading(false); // Reset loading after successful logout
@@ -37,7 +37,10 @@ const Navbar = () => {
         }
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
-          console.error("Error during logout API call:", error.response?.data?.message || error.message);
+          console.error(
+            "Error during logout API call:",
+            error.response?.data?.message || error.message
+          );
         } else {
           console.error("Unexpected error during logout:", error);
         }
@@ -92,14 +95,12 @@ const Navbar = () => {
                 className="absolute right-3 mt-2 w-[150px] bg-white rounded-md shadow-md z-20"
                 style={{ top: "100%", marginTop: "8px" }}
               >
-              
-                  <div
-                    className="px-6 py-2 text-center text-gray-600 font-medium rounded-md hover:bg-gray-300 cursor-pointer"
-                    onClick={handleLogout}
-                  >
-                    {loading ? "Logging out..." : "Logout"}
-                  </div>
-              
+                <div
+                  className="px-6 py-2 text-center text-gray-600 font-medium rounded-md hover:bg-gray-300 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  {loading ? "Logging out..." : "Logout"}
+                </div>
               </div>
             )}
           </div>
