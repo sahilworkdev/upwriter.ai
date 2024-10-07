@@ -213,7 +213,7 @@ const Dashboard = () => {
               onChange={handleEditorTextChange}
             />
             <button
-              className="text-white bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-600"
+              className="text-white fixed sm:bottom-10 bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-600"
               onClick={handleEditorSubmit}
             >
               Save document

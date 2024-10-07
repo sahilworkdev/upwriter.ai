@@ -29,10 +29,14 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.quill
+/* .quill
 {
   border: none;
   width: 100%;
   height: 65vh;
   margin-bottom: 60px;
+} */
+
+.rdw-editor{
+  height: 90vh;
 }
