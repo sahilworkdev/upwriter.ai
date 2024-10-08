@@ -48,7 +48,7 @@ const UseCaseDropdown: React.FC<UseCaseDropdownProps> = ({
         }`}
         onClick={toggleDropdown}
       >
-        <label className="block mb-1 font-medium">Set Use Cases</label>
+        <label className="block mb-1 font-medium text-lg">Choose use cases</label>
         {isOpen ? <FiChevronUp /> : <FiChevronDown />}
       </div>
       {isOpen && (

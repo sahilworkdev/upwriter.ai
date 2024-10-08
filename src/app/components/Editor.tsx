@@ -13,6 +13,7 @@
 //   return <ReactQuill theme="snow" value={value} onChange={onChange} />;
 // }
 
+
 "use client";
 import React, { useEffect, useState } from "react";
 import { EditorState, ContentState, SelectionState } from "draft-js";
@@ -65,7 +66,7 @@ const MyEditor: React.FC<EditorProps> = ({ value, onChange }) => {
       <Editor
         editorState={editorState}
         wrapperClassName=""
-        editorClassName="max-h-screen overflow-y-hidden border-2 border-gray-200 rounded-lg p-2 mb-2 overflow-y-auto"
+        editorClassName="max-h-[70vh] min-h-[54vh]  sm:min-h-[64vh] md:min-h-[66vh] border-2 border-gray-200 rounded-lg p-2 mb-2 overflow-y-auto"
         onEditorStateChange={onEditorStateChange}
       />
     </div>

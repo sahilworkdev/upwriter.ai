@@ -84,7 +84,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border rounded-md outline-none focus:ring focus:ring-indigo-300"
+              className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border rounded-md outline-none"
             />
           </div>
           <div>
@@ -98,7 +98,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border rounded-md outline-none focus:ring focus:ring-indigo-300"
+                className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border rounded-md outline-none"
               />
               <span
                 onClick={togglePasswordVisibility}

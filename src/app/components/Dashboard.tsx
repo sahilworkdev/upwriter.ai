@@ -26,6 +26,14 @@ type Metadata = {
   language: string;
   _id: string;
 };
+export type EditorText = {
+  id: string;
+  name: string;
+  words: string;
+  modified: string;
+  favourite: boolean;
+}
+
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [documents, setDocuments] = useState<any[]>([]);
@@ -202,12 +210,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className={`w-[400px] max-w-[500px] hidden md:block`}>
+        <div className={`w-[400px] max-w-[500px] overflow-hidden hidden md:block ${showEditor && 'flex-[0.4]'}`}> 
           <Sidebar handleDocumentSubmit={handleDocumentSubmit} />
         </div>
 
         {showEditor ? (
-          <div>
+          <div className="flex-1">
             <Editor
               value={editorText?.name}
               onChange={handleEditorTextChange}
@@ -222,6 +230,8 @@ const Dashboard = () => {
         ) : (
           <div className="flex-grow">
             <DocumentList
+            setEditorText= {setEditorText}
+            setShowEditor={setShowEditor}
               documents={documents}
               handleFavouriteUpdate={handleFavouriteUpdate}
               handleDeleteData={handleDeleteData}

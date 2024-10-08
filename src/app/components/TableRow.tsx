@@ -1,8 +1,10 @@
 import { FaStar, FaRegStar, FaFileAlt } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
-import { CiEdit } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
+import { CiEdit } from "react-icons/ci";
+import {MdEditDocument} from "react-icons/md";
+import { EditorText } from "./Dashboard";
 type Props = {
   data: {
     id: string;
@@ -13,6 +15,8 @@ type Props = {
   };
   handleFavouriteUpdate: (id: string) => void;
   handleDeleteData: (id: string) => void;
+  setShowEditor:(b: boolean) => void;
+  setEditorText:(data: EditorText) => void;
 };
 type optionProps = {
   id: string;
@@ -30,7 +34,8 @@ type optionProps = {
 //   return words.filter((word: string) => word.length > 0).length;
 // }
 
-function TableRow({ data, handleFavouriteUpdate, handleDeleteData }: Props) {
+function TableRow({ data, handleFavouriteUpdate, handleDeleteData,  setShowEditor,
+  setEditorText }: Props) {
   // Function to format the date
   function formatDate(dateString: string): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -45,10 +50,17 @@ function TableRow({ data, handleFavouriteUpdate, handleDeleteData }: Props) {
     return new Date(dateString).toLocaleString("en-US", options);
   }
   return (
-    <tr>
+    <tr onClick={() => {
+      setShowEditor(true);
+      setEditorText({id: data.id,
+        name: data.name,
+        words: String(data.words),
+        modified: data.modified,
+        favourite: data.favourite});
+    }} className="cursor-pointer">
       <Td wrap className="flex !whitespace-normal items-center">
         <FaFileAlt
-          style={{ color: "#989898" }}
+          style={{ color: "#64748B" }}
           className="inline mr-2 hover:cursor-pointer"
         />
         {/* <span className="hidden sm:inline">{data.name}</span>
@@ -57,13 +69,16 @@ function TableRow({ data, handleFavouriteUpdate, handleDeleteData }: Props) {
           {data.name}
         </span>
       </Td>
-      {/* <Td className="text-center">{countWords(data.words)}</Td> */}
+      <Td className="text-center">{data.words}</Td>
       <Td className="text-center">
-        <span className="hidden sm:inline">{formatDate(data.modified)}</span>
+        <span className="hidden sm:inline">{formatDate(data?.modified)}</span>
         {/* <span className="sm:hidden">{data?.modified.slice(0, 10)}...</span> */}
       </Td>
       <Td>
-        <button onClick={() => handleFavouriteUpdate(data.id)}>
+        <button onClick={(e) => {
+          e.stopPropagation();
+          handleFavouriteUpdate(data.id);
+          }}>
           {data.favourite ? (
             <FaStar size={18} style={{ color: "#989898" }} />
           ) : (
@@ -104,7 +119,10 @@ function Options({ id, handleDeleteData }: optionProps) {
         className="cursor-pointer"
         size={18}
         style={{ color: "#989898" }}
-        onClick={() => setModalOpen(!modalOpen)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setModalOpen(!modalOpen)}
+        }
       />
       {modalOpen && (
         <div
@@ -114,10 +132,15 @@ function Options({ id, handleDeleteData }: optionProps) {
             setModalOpen(false);
           }}
         >
-          {/* <div className="flex gap-2 cursor-pointer">
+          <div className="flex gap-2 cursor-pointer">
             <CiEdit size={18} className="text-blue-600"/>
+            <span>Rename</span>
+          </div>
+
+          <div className="flex gap-2 cursor-pointer">
+            <MdEditDocument size={18} className="text-blue-600"/>
             <span>Edit</span>
-          </div> */}
+          </div>
 
           <div
             className="flex gap-2 cursor-pointer"
