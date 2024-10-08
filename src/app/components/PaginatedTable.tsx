@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { DocumentInfo } from "./Dashboard";
@@ -61,6 +61,11 @@ const PaginatedTable: React.FC<PaginationProps> = ({
 
     return pages;
   };
+
+  // Reset the page to 1 when `favourites` changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [favourites]);
 
   return (
     <div>

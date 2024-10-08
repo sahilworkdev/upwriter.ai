@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "./Editor";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { IoMdDocument } from "react-icons/io";
 
 type DataObject = {
   _id: string;
@@ -226,19 +227,20 @@ const Dashboard = () => {
           <div className="flex-1">
             <div className="flex justify-between mb-4 items-baseline">
               <div>
-                <h2 className="sm:text-2xl text-lg font-bold flex items-center gap-2">
+                <h2 className="sm:text-2xl text-lg font-medium flex items-center gap-2 text-[#64748b]">
                   <FaArrowLeftLong
-                    className="cursor-pointer"
-                    // onClick={() => setShowDocuments(false)}
+                    className="cursor-pointer "
+                    onClick={() => setShowEditor(false)}
                   />
                   Document List
                 </h2>
               </div>
               <button
-                className="text-white top-10 bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-indigo-600"
+                className="text-white flex items-center gap-2 top-10 bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-indigo-600"
                 onClick={handleEditorSubmit}
               >
-                Save document
+                <IoMdDocument />
+                <span> Save</span>
               </button>
             </div>
             <Editor

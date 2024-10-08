@@ -1,10 +1,8 @@
 import { FaStar, FaRegStar, FaFileAlt } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
-import { FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import { MdEditDocument } from "react-icons/md";
 import { DocumentInfo } from "./Dashboard";
+import OptionsModal from "./OptionsModal";
 
 type Props = {
   data: {
@@ -19,10 +17,6 @@ type Props = {
   setShowEditor: (b: boolean) => void;
   setEditorText: (data: DocumentInfo) => void;
 };
-type optionProps = {
-  id: string;
-  handleDeleteData: (id: string) => void;
-};
 
 function TableRow({
   data,
@@ -31,6 +25,8 @@ function TableRow({
   setShowEditor,
   setEditorText,
 }: Props) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   // Function to format the date
   function formatDate(dateString: string): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -74,7 +70,7 @@ function TableRow({
       <Td className="text-center">{data.words}</Td>
       <Td className="text-center">
         <span className="hidden sm:inline">{formatDate(data?.modified)}</span>
-        {/* <span className="sm:hidden">{data?.modified.slice(0, 10)}...</span> */}
+        <span className="sm:hidden">{formatDate(data?.modified).slice(0, 10)}...</span>
       </Td>
       <Td>
         <button
@@ -84,14 +80,29 @@ function TableRow({
           }}
         >
           {data.favourite ? (
-            <FaStar size={18} style={{ color: "#989898" }} />
+            <FaStar size={18} style={{ color: "#6366f1" }} />
           ) : (
             <FaRegStar size={18} style={{ color: "#989898" }} />
           )}
         </button>
       </Td>
       <Td>
-        <Options id={data.id} handleDeleteData={handleDeleteData} />
+        <FaEllipsisVertical
+          className="cursor-pointer"
+          size={18}
+          style={{ color: "#989898" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setModalOpen(!modalOpen);
+          }}
+        />
+        {modalOpen && (
+          <OptionsModal
+            id={data.id}
+            handleDeleteData={handleDeleteData}
+            onClose={() => setModalOpen(false)} // Close modal handler
+          />
+        )}
       </Td>
     </tr>
   );
@@ -110,7 +121,9 @@ function Td({
 }>) {
   return (
     <td
-    onClick={() =>{ if (openEditor)  openEditor()}}
+      onClick={() => {
+        if (openEditor) openEditor();
+      }}
       className={`px-2 sm:px-6 whitespace-nowrap py-4 text-sm font-medium text-gray-800 ${className}`}
     >
       {children}
@@ -118,51 +131,5 @@ function Td({
   );
 }
 
-function Options({ id, handleDeleteData }: optionProps) {
-  const [modalOpen, setModalOpen] = useState(false);
-  return (
-    <div>
-      <FaEllipsisVertical
-        className="cursor-pointer"
-        size={18}
-        style={{ color: "#989898" }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setModalOpen(!modalOpen);
-        }}
-      />
-      {modalOpen && (
-        <div
-          className="absolute right-6 rounded-lg flex flex-col gap-2 overflow-y-auto p-4 bg-white shadow-lg z-10"
-          onClick={() => {
-            console.log("edit called");
-            setModalOpen(false);
-          }}
-        >
-          <div className="flex gap-2 cursor-pointer">
-            <CiEdit size={18} className="text-blue-600" />
-            <span>Rename</span>
-          </div>
-
-          <div className="flex gap-2 cursor-pointer">
-            <MdEditDocument size={18} className="text-blue-600" />
-            <span>Edit</span>
-          </div>
-
-          <div
-            className="flex gap-2 cursor-pointer"
-            onClick={() => {
-              handleDeleteData(id);
-              setModalOpen(false);
-            }}
-          >
-            <FaTrashAlt size={18} className="text-red-500" />
-            <span>Delete</span>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default TableRow;
+

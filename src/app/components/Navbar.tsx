@@ -65,7 +65,7 @@ const Navbar = () => {
       <nav className="w-full md:h-[60px] bg-[#6366F1] flex justify-between items-center px-6 py-4">
         {/* Logo Section */}
         <div className="flex items-center space-x-3">
-          <h2 className="text-white font-bold">UpWriter.AI</h2>
+          <h2 className="text-white font-bold text-lg">UpWriter.AI</h2>
         </div>
 
         {/* Hamburger Icon (visible on smaller screens) */}
@@ -83,12 +83,12 @@ const Navbar = () => {
         <div
           className={`${
             isMenuOpen
-              ? "flex flex-col gap-8 h-[100%] w-[40%] py-6 pl-4 right-0"
+              ? "flex flex-col gap-8 h-[100%] w-[60%] py-6 pl-4"
               : "hidden"
           } md:flex flex-col md:flex-row items-start md:items-center space-x-4 md:space-x-4 absolute md:static top-16 md:top-0 right-0 z-99 w-full md:w-auto bg-[#6366F1] md:bg-transparent transition-all duration-300 ease-in-out`}
         >
           <div
-            className="flex ml-4 items-center text-white space-x-2 hover:text-gray-300 cursor-pointer"
+            className="flex ml-4 items-center text-white space-x-1 hover:text-gray-300 cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <RiDashboardLine size={24} />
@@ -97,7 +97,7 @@ const Navbar = () => {
             </span>
           </div>
           <div
-            className="flex items-center text-white space-x-2 cursor-not-allowed"
+            className="flex items-center text-white space-x-1 cursor-not-allowed"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <FaCreditCard size={24} />
@@ -107,14 +107,14 @@ const Navbar = () => {
           </div>
           <div
             onClick={toggleModal}
-            className="flex items-center px-2 py-1 font-medium text-lg bg-white text-[#6366f1] space-x-2 hover:bg-[#6366f1] hover:text-white hover:border-white border-2 cursor-pointer rounded-md"
+            className="flex items-center px-2 py-1 font-medium text-lg bg-white text-[#6366f1]  hover:bg-[#6366f1] hover:text-white border-[#6366f1] hover:border-white border-2 cursor-pointer rounded-md"
           >
             Buy Credits
           </div>
 
           {/* Logout Button */}
           <div
-            className="flex items-center text-nowrap text-lg text-white px-2 py-1 font-medium space-x-2 hover:text-gray-300 cursor-pointer border-2 border-white rounded-md"
+            className="flex items-center text-nowrap text-lg text-white px-2 py-1 font-medium hover:bg-white hover:text-[#6366f1] cursor-pointer border-2 border-white rounded-md"
             onClick={handleLogout}
           >
             {loading ? "Logging out..." : "Logout"}
