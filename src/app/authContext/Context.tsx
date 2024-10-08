@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const isValid = localStorage.getItem("user");
+  // const isValid = localStorage.getItem("user");
   // console.log(isValid, "isvalid");
 
   useEffect(() => {

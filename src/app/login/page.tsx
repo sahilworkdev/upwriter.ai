@@ -39,7 +39,7 @@ const Login = () => {
     try {
       const res = await axios.post(url, formData);
       if (res?.data?.status) {
-        console.log(res.data);
+        // console.log(res.data);
         // localStorage.setItem("user", res?.data?.data)
         logIn(res?.data?.data);
         router.push("/");
@@ -115,7 +115,7 @@ const Login = () => {
           {error && <p className="text-red-500 text-center text-sm">{error}</p>}
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-[#6366F1] rounded-md hover:bg-[#474BFF] focus:ring focus:ring-indigo-300"
+            className="w-full px-4 py-2 font-bold text-white bg-[#6366F1] rounded-md hover:bg-indigo-600"
           >
             LogIn
           </button>
@@ -123,7 +123,7 @@ const Login = () => {
         <div className="text-center">
           <p>
             Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-blue-500 hover:underline">
+            <Link href="/register" className="text-blue-600 hover:underline">
               Register here
             </Link>
           </p>

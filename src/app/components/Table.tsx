@@ -1,22 +1,14 @@
 import React from "react";
 import TableRow from "./TableRow";
-import { EditorText } from "./Dashboard";
-
-export type DocumentInfo = {
-  id: string;
-  name: string;
-  words: number;
-  modified: string;
-  favourite: boolean;
-};
+import { DocumentInfo } from "./Dashboard";
 
 interface TableProps {
   favourites: boolean;
   documents: DocumentInfo[];
   handleFavouriteUpdate: (id: string) => void;
   handleDeleteData: (id: string) => void;
-  setShowEditor:(b: boolean) => void;
-  setEditorText:(data: EditorText) => void;
+  setShowEditor: (b: boolean) => void;
+  setEditorText: (data: DocumentInfo) => void;
 }
 
 const Table: React.FC<TableProps> = ({
@@ -25,7 +17,7 @@ const Table: React.FC<TableProps> = ({
   handleFavouriteUpdate,
   handleDeleteData,
   setShowEditor,
-  setEditorText
+  setEditorText,
 }) => {
   return (
     <div
@@ -46,8 +38,8 @@ const Table: React.FC<TableProps> = ({
             favourites ? (
               item.favourite && (
                 <TableRow
-                setEditorText= {setEditorText}
-                setShowEditor={setShowEditor}
+                  setEditorText={setEditorText}
+                  setShowEditor={setShowEditor}
                   key={item.id}
                   data={item}
                   handleFavouriteUpdate={handleFavouriteUpdate}
@@ -56,8 +48,8 @@ const Table: React.FC<TableProps> = ({
               )
             ) : (
               <TableRow
-              setEditorText= {setEditorText}
-              setShowEditor={setShowEditor}
+                setEditorText={setEditorText}
+                setShowEditor={setShowEditor}
                 key={item.id}
                 data={item}
                 handleFavouriteUpdate={handleFavouriteUpdate}

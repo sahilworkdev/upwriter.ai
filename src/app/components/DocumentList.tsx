@@ -104,36 +104,27 @@
 
 // export default DocumentList;
 
-
 "use client";
 import { useState } from "react";
-// import Table from "./Table";
 import { FaStar } from "react-icons/fa";
 import { CgFileAdd } from "react-icons/cg";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Editor from "./Editor";
 import PaginatedTable from "./PagintaedTable";
-import { EditorText } from "./Dashboard";
+import { DocumentInfo } from "./Dashboard";
 
-type DocumentInfo = {
-  id: string;
-  name: string;
-  words: number;
-  modified: string;
-  favourite: boolean;
-};
 function DocumentList({
   documents,
   handleFavouriteUpdate,
   handleDeleteData,
   setShowEditor,
-  setEditorText
+  setEditorText,
 }: {
   documents: DocumentInfo[];
   handleFavouriteUpdate: (id: string) => void;
   handleDeleteData: (id: string) => void;
-  setShowEditor:(b: boolean) => void;
-  setEditorText:(data: EditorText) => void;
+  setShowEditor: (b: boolean) => void;
+  setEditorText: (data: DocumentInfo) => void;
 }) {
   const [favouritesON, setFavouritesON] = useState(false);
   const [showDocuments, setShowDocuments] = useState(false);
@@ -146,13 +137,14 @@ function DocumentList({
     <div className="text-gray-600">
       <div className="flex items-center justify-between mb-4">
         {showDocuments ? (
-          <h2 className="sm:text-2xl text-lg font-bold flex items-center gap-2">
-            <FaArrowLeftLong
-              className="cursor-pointer"
-              onClick={() => setShowDocuments(false)}
-            />
-            New Document
-          </h2>
+          // <h2 className="sm:text-2xl text-lg font-bold flex items-center gap-2">
+          //   <FaArrowLeftLong
+          //     className="cursor-pointer"
+          //     onClick={() => setShowDocuments(false)}
+          //   />
+          //   New Document
+          // </h2> 
+          ""
         ) : (
           <h2 className="sm:text-2xl text-lg font-bold">Document List</h2>
         )}
@@ -191,8 +183,8 @@ function DocumentList({
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
                 <PaginatedTable
-                setEditorText= {setEditorText}
-                setShowEditor={setShowEditor}
+                  setEditorText={setEditorText}
+                  setShowEditor={setShowEditor}
                   favourites={favouritesON}
                   documents={documents}
                   handleFavouriteUpdate={handleFavouriteUpdate}
@@ -203,16 +195,27 @@ function DocumentList({
           )}
         </div>
       )}
-
-      {showDocuments && <Editor />}
       {showDocuments && (
-        <button
-          className="text-white fixed sm:bottom-[38px] md:bottom-[38px] bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-[#5659e0]"
-          onClick={() => console.log("Save Documents")}
-        >
-          Save document
-        </button>
+        <div className="flex justify-between mb-4">
+          <div>
+            <h2 className="sm:text-2xl text-lg font-bold flex items-center gap-2">
+              <FaArrowLeftLong
+                className="cursor-pointer text-[#64748b]"
+                // onClick={handleBack}
+                onClick={() => setShowDocuments(false)}
+              />
+              New Document
+            </h2>
+          </div>
+          <button
+            className="text-white  top-10  bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-[#5659e0]"
+            onClick={() => console.log("Save Documents")}
+          >
+            Save document
+          </button>
+        </div>
       )}
+      {showDocuments && <Editor />}
     </div>
   );
 }

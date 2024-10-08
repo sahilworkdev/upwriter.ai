@@ -6,6 +6,7 @@ import { CiPen } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "./Editor";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 type DataObject = {
   _id: string;
@@ -26,21 +27,22 @@ type Metadata = {
   language: string;
   _id: string;
 };
-export type EditorText = {
+
+export type DocumentInfo = {
   id: string;
   name: string;
-  words: string;
+  words: number;
   modified: string;
   favourite: boolean;
-}
+};
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [documents, setDocuments] = useState<any[]>([]);
-  const [editorText, setEditorText] = useState<any>({
+  const [documents, setDocuments] = useState<DocumentInfo[]>([]);
+  const [editorText, setEditorText] = useState<DocumentInfo>({
     id: "",
     name: "",
-    words: "",
+    words: 0,
     modified: "",
     favourite: false,
   });
@@ -117,16 +119,18 @@ const Dashboard = () => {
         // console.log(response, "rseponse in document list");
 
         if (response?.data?.status) {
-          const data: any = response.data.data.map((doc: DataObject) => {
-            // console.log("content:", doc.content)
-            return {
-              id: doc._id,
-              name: doc.content,
-              words: "",
-              modified: doc.updatedAt,
-              favourite: doc.isFavorite,
-            };
-          });
+          const data: DocumentInfo[] = response.data.data.map(
+            (doc: DataObject) => {
+              // console.log("content:", doc.content)
+              return {
+                id: doc._id,
+                name: doc.content,
+                words: "",
+                modified: doc.updatedAt,
+                favourite: doc.isFavorite,
+              };
+            }
+          );
           setDocuments(data);
         }
       } catch (error) {
@@ -137,7 +141,7 @@ const Dashboard = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  const handleDocumentSubmit = async (data: any) => {
+  const handleDocumentSubmit = async (data: DocumentInfo) => {
     setDocuments((prevDocuments) => [data, ...prevDocuments]);
     setEditorText(data);
     setShowEditor(true);
@@ -148,7 +152,7 @@ const Dashboard = () => {
     console.log(editorText, "...");
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/content/${editorText?.id}`;
     const userJson = localStorage.getItem("user");
-    console.log(userJson, "user json");
+
     if (userJson) {
       const user = JSON.parse(userJson);
       const accessToken = user.accessToken;
@@ -210,28 +214,43 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className={`w-[400px] max-w-[500px] overflow-hidden hidden md:block ${showEditor && 'flex-[0.4]'}`}> 
+        <div
+          className={`w-[400px] max-w-[500px] overflow-hidden hidden md:block ${
+            showEditor && "flex-[0.4]"
+          }`}
+        >
           <Sidebar handleDocumentSubmit={handleDocumentSubmit} />
         </div>
 
         {showEditor ? (
           <div className="flex-1">
+            <div className="flex justify-between mb-4 items-baseline">
+              <div>
+                <h2 className="sm:text-2xl text-lg font-bold flex items-center gap-2">
+                  <FaArrowLeftLong
+                    className="cursor-pointer"
+                    // onClick={() => setShowDocuments(false)}
+                  />
+                  Document List
+                </h2>
+              </div>
+              <button
+                className="text-white top-10 bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-indigo-600"
+                onClick={handleEditorSubmit}
+              >
+                Save document
+              </button>
+            </div>
             <Editor
               value={editorText?.name}
               onChange={handleEditorTextChange}
             />
-            <button
-              className="text-white fixed sm:bottom-10 bg-[#6366f1] z-10 px-4 py-2 text-sm rounded-md shadow-md hover:bg-blue-600"
-              onClick={handleEditorSubmit}
-            >
-              Save document
-            </button>
           </div>
         ) : (
           <div className="flex-grow">
             <DocumentList
-            setEditorText= {setEditorText}
-            setShowEditor={setShowEditor}
+              setEditorText={setEditorText}
+              setShowEditor={setShowEditor}
               documents={documents}
               handleFavouriteUpdate={handleFavouriteUpdate}
               handleDeleteData={handleDeleteData}

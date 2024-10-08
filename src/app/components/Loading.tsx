@@ -4,9 +4,9 @@ const Loading: React.FC = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="flex items-center space-x-2">
-        <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse"></div>
-        <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse delay-150"></div>
-        <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse delay-300"></div>
+        <div className="w-4 h-4 rounded-full bg-[#6366f1] animate-pulse"></div>
+        <div className="w-4 h-4 rounded-full bg-[#6366f1] animate-pulse delay-150"></div>
+        <div className="w-4 h-4 rounded-full bg-[#6366f1] animate-pulse delay-300"></div>
       </div>
     </div>
   );

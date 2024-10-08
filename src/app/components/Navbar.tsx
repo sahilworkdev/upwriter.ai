@@ -83,7 +83,7 @@ const Navbar = () => {
         <div
           className={`${
             isMenuOpen
-              ? "flex flex-col gap-8 h-[100%] w-[50%] py-6 pl-4 right-0"
+              ? "flex flex-col gap-8 h-[100%] w-[40%] py-6 pl-4 right-0"
               : "hidden"
           } md:flex flex-col md:flex-row items-start md:items-center space-x-4 md:space-x-4 absolute md:static top-16 md:top-0 right-0 z-99 w-full md:w-auto bg-[#6366F1] md:bg-transparent transition-all duration-300 ease-in-out`}
         >

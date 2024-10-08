@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import Table from "./Table";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { EditorText } from "./Dashboard";
-
-type DocumentInfo = {
-  id: string;
-  name: string;
-  words: number;
-  modified: string;
-  favourite: boolean;
-};
+import { DocumentInfo } from "./Dashboard";
 
 interface PaginationProps {
   favourites: boolean;
@@ -17,8 +9,8 @@ interface PaginationProps {
   handleFavouriteUpdate: (id: string) => void;
   handleDeleteData: (id: string) => void;
   itemsPerPage?: number;
-  setShowEditor:(b: boolean) => void;
-  setEditorText:(data: EditorText) => void;
+  setShowEditor: (b: boolean) => void;
+  setEditorText: (data: DocumentInfo) => void;
 }
 
 const PaginatedTable: React.FC<PaginationProps> = ({
@@ -28,7 +20,7 @@ const PaginatedTable: React.FC<PaginationProps> = ({
   handleDeleteData,
   itemsPerPage = 10,
   setShowEditor,
-  setEditorText
+  setEditorText,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -73,8 +65,8 @@ const PaginatedTable: React.FC<PaginationProps> = ({
   return (
     <div>
       <Table
-      setEditorText= {setEditorText}
-      setShowEditor={setShowEditor}
+        setEditorText={setEditorText}
+        setShowEditor={setShowEditor}
         favourites={favourites}
         documents={currentDocuments}
         handleFavouriteUpdate={handleFavouriteUpdate}

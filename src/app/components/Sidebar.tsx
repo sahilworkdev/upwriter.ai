@@ -278,7 +278,6 @@
 
 // export default Sidebar;
 
-
 "use client";
 import { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
@@ -323,9 +322,12 @@ const Sidebar = ({
   const [useCase, setUseCase] = useState("");
   const [primaryKey, setPrimaryKey] = useState("");
   const [researchLevel, setResearchLevel] = useState(0);
-  const [personalityTags, setPersonalityTags] = useState<tagType[]>(personalities);
+  const [personalityTags, setPersonalityTags] =
+    useState<tagType[]>(personalities);
   const [toneTags, setToneTags] = useState<tagType[]>(tones);
-  const [selectedPersonalityTags, setSelectedPersonalityTags] = useState<tagType[]>([]);
+  const [selectedPersonalityTags, setSelectedPersonalityTags] = useState<
+    tagType[]
+  >([]);
   const [selectedToneTags, setSelectedToneTags] = useState<tagType[]>([]);
   const [language, setLanguage] = useState("");
   const [personalityOpen, setPersonalityOpen] = useState(false);
@@ -415,7 +417,9 @@ const Sidebar = ({
             setSelectedToneTags([]);
             setPersonalityTags(personalities); // Reset personality tags
             setToneTags(tones); // Reset tone tags
-            enqueueSnackbar("Document generated successfully", { variant: "success" });
+            enqueueSnackbar("Document generated successfully", {
+              variant: "success",
+            });
           }
         } catch (error) {
           console.log(error);
@@ -428,8 +432,10 @@ const Sidebar = ({
   };
 
   return (
-    <div className="h-[90vh] pb-32 mb-10 sm:min-h-[87vh] overflow-y-scroll w-full rounded-md border border-gray-300 p-4">
-      <h2 className="text-2xl font-semibold mb-4 text-[#111827]">Write with AI</h2>
+    <div className="h-[90vh] pb-32 mb-10 sm:min-h-[87vh] overflow-y-scroll w-full rounded-md border bg-[#f7f9ff] border-gray-300 p-4">
+      <h2 className="text-2xl font-semibold mb-4 text-[#111827]">
+        Write with AI
+      </h2>
       <form onSubmit={handleSubmit}>
         {/* UseCase Drop-down */}
         <UseCaseDropdown
@@ -453,7 +459,10 @@ const Sidebar = ({
         </div>
 
         {/* Research level slider */}
-        <ProgressBar researchLevel={researchLevel} setResearchLevel={setResearchLevel} />
+        <ProgressBar
+          researchLevel={researchLevel}
+          setResearchLevel={setResearchLevel}
+        />
 
         {/* Personality dropdown */}
         <div className="mb-4">
