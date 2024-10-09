@@ -64,7 +64,7 @@ const MyEditor: React.FC<EditorProps> = ({ value, onChange }) => {
       <Editor
         editorState={editorState}
         wrapperClassName=""
-        editorClassName="max-h-[74vh] min-h-[54vh]  sm:min-h-[54vh] md:min-h-[74vh] border-2 border-gray-200 rounded-lg p-2 mb-2 overflow-y-auto"
+        editorClassName="max-h-[74vh] min-h-[54vh] text-wrap sm:min-h-[54vh] md:min-h-[74vh] border-2 border-gray-200 rounded-lg p-2 mb-2 overflow-y-auto"
         onEditorStateChange={onEditorStateChange}
       />
     </div>
