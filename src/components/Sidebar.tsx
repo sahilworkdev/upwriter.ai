@@ -135,6 +135,8 @@ const Sidebar = ({
             const data = {
               id: response?.data?.data?._id,
               name: response?.data?.data?.content,
+              modified: response?.data?.data?.updatedAt,
+              favourite: response?.data?.data?.isFavorite,
             };
             await handleDocumentSubmit(data);
             // Reset all state variables

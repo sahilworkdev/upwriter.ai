@@ -18,9 +18,12 @@ const handler = NextAuth({
         );
 
         if (res.data.status === true) {
+            
           const user = res?.data?.genToken?.user;
           const accessToken = res?.data?.genToken?.accessToken;
           const refreshToken = res?.data?.genToken?.refreshToken;
+
+          console.log("data", res.data)
 
           token.userData = {
             id: user._id,

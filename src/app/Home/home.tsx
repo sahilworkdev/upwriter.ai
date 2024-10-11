@@ -25,6 +25,8 @@ export default function Home() {
   const { data: session } = useSession();
   const { logIn } = useContext(AuthContext);
 
+  console.log(session?.user);
+
   useEffect(() => {
     if (!!session?.user?.accessToken) {
       logIn(session?.user);

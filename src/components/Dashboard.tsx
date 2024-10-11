@@ -3,12 +3,13 @@
 import DocumentList from "./DocumentList";
 import Sidebar from "./Sidebar";
 import { CiPen } from "react-icons/ci";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Editor from "./Editor";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { IoMdDocument } from "react-icons/io";
 import { useSession } from "next-auth/react";
+import { AuthContext } from "@/authContext/Context";
 
 type DataObject = {
   _id: string;
@@ -51,6 +52,7 @@ const Dashboard = () => {
   const [showEditor, setShowEditor] = useState(false);
   const { data: session } = useSession();
   const accessToken = session?.user?.accessToken;
+  const { updateCredit } = useContext(AuthContext);
 
   const handleFavouriteUpdate = async (id: string) => {
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/${id}`;
@@ -101,6 +103,7 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     if (accessToken) {
+      console.log("Token", accessToken);
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents`,
@@ -113,6 +116,11 @@ const Dashboard = () => {
         );
 
         if (response?.data?.status) {
+          if (response?.data?.data.length > 0) {
+            console.log("docCredit", response?.data?.data[0]?.user?.credits);
+            updateCredit(response?.data?.data[0]?.user?.credits);
+          }
+
           const data: DocumentInfo[] = response.data.data.map(
             (doc: DataObject) => {
               // console.log("content:", doc.content)
