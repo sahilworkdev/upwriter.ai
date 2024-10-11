@@ -8,33 +8,36 @@ import { AuthContext } from "../authContext/Context";
 import { useContext } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import PaymentModal from "./PaymentModal";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
 
-const Navbar = ({ credits }: { credits: number }) => {
+const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { logOut } = useContext(AuthContext);
+  const { logOut, credits } = useContext(AuthContext);
   const router = useRouter();
+
+  console.log("NAVcredits", credits);
+
+  const { data: session } = useSession();
+  const refreshToken = session?.user?.refreshToken;
 
   const handleLogout = async () => {
     setLoading(true);
 
-    // next-auth logout
-    await signOut();
+    // const userJson = localStorage.getItem("user");
 
-    const userJson = localStorage.getItem("user");
-
-    if (userJson) {
-      const user = JSON.parse(userJson);
+    if (refreshToken) {
       const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/auth/logout`;
-      const refreshToken = user.refreshToken;
+
+      console.log("refresh", refreshToken);
 
       try {
         const res = await axios.post(url, { refreshToken });
         if (res.status === 200) {
           logOut();
+          await signOut(); // next-auth
           setTimeout(() => {
             router.push("/login");
             setLoading(false);

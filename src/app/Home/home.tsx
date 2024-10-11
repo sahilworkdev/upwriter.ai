@@ -4,9 +4,11 @@ import { useSession } from "next-auth/react";
 import Dashboard from "@/components/Dashboard";
 import Navbar from "@/components/Navbar";
 import SignUp from "@/app/signup/page";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/authContext/Context";
 
 interface AppContentProps {
-  isLoggedIn: boolean;
+  // isLoggedIn: boolean;
   userData?: {
     name?: string | null;
     email?: string | null;
@@ -20,17 +22,19 @@ interface AppContentProps {
 }
 
 export default function Home() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const { logIn } = useContext(AuthContext);
 
-  return (
-    <AppContent
-      isLoggedIn={status === "authenticated"}
-      userData={session?.user}
-    />
-  );
+  useEffect(() => {
+    if (!!session?.user?.accessToken) {
+      logIn(session?.user);
+    }
+  }, []);
+
+  return <AppContent />;
 }
 
-function AppContent({ isLoggedIn, userData }: AppContentProps) {
+function AppContent() {
   // sample userData = {
   //   accessToken:
   //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzA3ZDhlZWI2ODE1NTJjNDY1NWRjNWYiLCJlbWFpbCI6InZpbWFsQHRoZXdhc3NlcnN0b2ZmLmNvbSIsImlhdCI6MTcyODYyOTU0NSwiZXhwIjoxNzI5MjM0MzQ1fQ.xco1ifK8Ennsor38klQmpu_2gCXV2LXFW7Ft9C-in9I",
@@ -44,11 +48,15 @@ function AppContent({ isLoggedIn, userData }: AppContentProps) {
   //   refreshToken:
   //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzA3ZDhlZWI2ODE1NTJj",
   // };
-  //
+  // //
+  // const { data: session } = useSession();
+  // const isLoggedIn = !!session?.user?.accessToken;
+
+  const { isLoggedIn } = useContext(AuthContext);
 
   return isLoggedIn ? (
     <main>
-      <Navbar credits={userData?.credits!} />
+      <Navbar />
       <Dashboard />
     </main>
   ) : (

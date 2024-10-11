@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { LiaTimesSolid } from "react-icons/lia";
 import SelectionBox from "./SelectionBox";
@@ -9,6 +9,8 @@ import axios from "axios";
 import LanguageDropdown from "./LanguageDropdown";
 import UseCaseDropdown from "./UseCaseDropdown";
 import { enqueueSnackbar } from "notistack";
+import { useSession } from "next-auth/react";
+import { AuthContext } from "@/authContext/Context";
 
 type tagType = {
   name: string;
@@ -53,6 +55,9 @@ const Sidebar = ({
   const [personalityOpen, setPersonalityOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [toneOpen, setToneOpen] = useState(false);
+  const { updateCredit } = useContext(AuthContext);
+
+  const { data: session } = useSession();
 
   const handlePersonalitySelect = (selectedTag: tagType) => {
     const updatedTags = personalityTags.map((tag) =>
@@ -98,10 +103,9 @@ const Sidebar = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const userJson = localStorage.getItem("user");
-    if (userJson) {
-      const user = JSON.parse(userJson);
-      const accessToken = user.accessToken;
+    const accessToken = session?.user?.accessToken;
+
+    if (accessToken) {
       if (allFieldsFilled) {
         const metadata = {
           useCase: useCase,
@@ -122,7 +126,12 @@ const Sidebar = ({
               },
             }
           );
+          console.log("hdfbeikjbv", response.data);
+
           if (response?.data?.status) {
+            console.log("docCredit", response?.data?.data?.user?.credits);
+            updateCredit(response?.data?.data?.user?.credits);
+
             const data = {
               id: response?.data?.data?._id,
               name: response?.data?.data?.content,
@@ -131,12 +140,12 @@ const Sidebar = ({
             // Reset all state variables
             setUseCase("");
             setPrimaryKey("");
-            setResearchLevel(0); 
+            setResearchLevel(0);
             setLanguage("");
             setSelectedPersonalityTags([]);
             setSelectedToneTags([]);
-            setPersonalityTags(personalities); 
-            setToneTags(tones); 
+            setPersonalityTags(personalities);
+            setToneTags(tones);
             enqueueSnackbar("Document generated successfully", {
               variant: "success",
             });

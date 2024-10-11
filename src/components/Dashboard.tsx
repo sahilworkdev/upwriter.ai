@@ -8,6 +8,7 @@ import axios from "axios";
 import Editor from "./Editor";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { IoMdDocument } from "react-icons/io";
+import { useSession } from "next-auth/react";
 
 type DataObject = {
   _id: string;
@@ -48,14 +49,13 @@ const Dashboard = () => {
     favourite: false,
   });
   const [showEditor, setShowEditor] = useState(false);
+  const { data: session } = useSession();
+  const accessToken = session?.user?.accessToken;
 
   const handleFavouriteUpdate = async (id: string) => {
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/${id}`;
-    const userJson = localStorage.getItem("user");
-    if (userJson) {
-      const user = JSON.parse(userJson);
-      const accessToken = user.accessToken;
-      // console.log(accessToken);
+
+    if (accessToken) {
       try {
         const res = await axios.put(url, null, {
           headers: {
@@ -77,17 +77,15 @@ const Dashboard = () => {
   };
   const handleDeleteData = async (id: string) => {
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/${id}`;
-    const userJson = localStorage.getItem("user");
-    if (userJson) {
-      const user = JSON.parse(userJson);
-      const accessToken = user.accessToken;
+
+    if (accessToken) {
       try {
         const res = await axios.delete(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        // console.log(res);
+
         if (res.status === 200) {
           const updatedDocuments = documents.filter((doc) => doc.id !== id);
           setDocuments(updatedDocuments);
@@ -102,10 +100,7 @@ const Dashboard = () => {
   }, []);
 
   const fetchData = async () => {
-    const userJson = localStorage.getItem("user");
-    if (userJson) {
-      const user = JSON.parse(userJson);
-      const accessToken = user.accessToken;
+    if (accessToken) {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents`,
@@ -116,8 +111,6 @@ const Dashboard = () => {
             },
           }
         );
-
-        // console.log(response, "rseponse in document list");
 
         if (response?.data?.status) {
           const data: DocumentInfo[] = response.data.data.map(
@@ -152,11 +145,8 @@ const Dashboard = () => {
   const handleEditorSubmit = async () => {
     console.log(editorText, "...");
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/content/${editorText?.id}`;
-    const userJson = localStorage.getItem("user");
 
-    if (userJson) {
-      const user = JSON.parse(userJson);
-      const accessToken = user.accessToken;
+    if (accessToken) {
       try {
         const res = await axios.put(
           url,
@@ -204,7 +194,6 @@ const Dashboard = () => {
   return (
     <main className="w-full p-4 ">
       <div className="flex gap-4">
-
         <div
           className={`fixed inset-0 z-40 transition-transform transform md:hidden ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"

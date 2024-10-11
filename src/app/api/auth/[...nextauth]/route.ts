@@ -23,6 +23,7 @@ const handler = NextAuth({
           const refreshToken = res?.data?.genToken?.refreshToken;
 
           token.userData = {
+            id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             credits: user.credits,

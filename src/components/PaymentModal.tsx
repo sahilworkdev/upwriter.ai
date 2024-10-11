@@ -4,6 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import BuyCreditsDropdown from "./BuyCreditsDropdown";
+//@ts-ignore
 import { load } from "@cashfreepayments/cashfree-js";
 import { enqueueSnackbar } from "notistack";
 import { useSession } from "next-auth/react";
@@ -30,6 +31,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { data: session } = useSession();
+  const accessToken = session?.user?.accessToken;
 
   const options = [1, 10, 25, 50, 100];
 
@@ -73,9 +75,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         const url =
           "https://0485-2401-4900-8841-8102-394c-7d29-4316-7a41.ngrok-free.app/user/cashfree";
 
-        if (session?.user?.accessToken) {
-          const accessToken = session?.user?.accessToken;
-
+        if (accessToken) {
           const response = await axios.post(
             url,
             {
