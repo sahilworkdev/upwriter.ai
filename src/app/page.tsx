@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-// import Home from "./Home/home";
 import { SnackbarProvider } from "notistack";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
+import { SessionProvider } from "next-auth/react";
 
 const Home = dynamic(() => import("./Home/home"), {
   ssr: false,
 });
 
-
 export default function App() {
   return (
-    <SnackbarProvider maxSnack={3}>
-      <Home />
-    </SnackbarProvider>
-
-  )
+    <SessionProvider>
+      <SnackbarProvider maxSnack={3}>
+        <Home />
+      </SnackbarProvider>
+    </SessionProvider>
+  );
 }

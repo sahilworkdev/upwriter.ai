@@ -6,14 +6,16 @@ import React, { useEffect, useState } from "react";
 import BuyCreditsDropdown from "./BuyCreditsDropdown";
 import { load } from "@cashfreepayments/cashfree-js";
 import { enqueueSnackbar } from "notistack";
-// import { useRouter } from 'next/router';
+import { useSession } from "next-auth/react";
 
 interface PaymentModalProps {
+  creditBalance: number;
   isModalOpen: boolean;
   toggleModal: () => void;
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({
+  creditBalance,
   isModalOpen,
   toggleModal,
 }) => {
@@ -26,6 +28,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     {}
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { data: session } = useSession();
 
   const options = [1, 10, 25, 50, 100];
 
@@ -68,11 +72,9 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       try {
         const url =
           "https://0485-2401-4900-8841-8102-394c-7d29-4316-7a41.ngrok-free.app/user/cashfree";
-        const userJson = localStorage.getItem("user");
 
-        if (userJson) {
-          const user = JSON.parse(userJson);
-          const accessToken = user.accessToken;
+        if (session?.user?.accessToken) {
+          const accessToken = session?.user?.accessToken;
 
           const response = await axios.post(
             url,
@@ -95,7 +97,9 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         }
       } catch (error) {
         setErrors({ credits: "Payment initiation failed. Please try again." });
-        enqueueSnackbar("Payment failed. Please try again.", { variant: "warning" });
+        enqueueSnackbar("Payment failed. Please try again.", {
+          variant: "warning",
+        });
         // console.error("Payment failed", error);
       } finally {
         setIsLoading(false);
@@ -103,14 +107,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     }
   };
 
-
   const initiateCashfreePayment = (data: any) => {
     console.log("paymentttt");
     const checkoutOptions = {
       paymentSessionId: data?.sessionId,
       returnUrl: `https://0485-2401-4900-8841-8102-394c-7d29-4316-7a41.ngrok-free.app/user/status/${data?.orderId}`,
     };
-  
+
     cashfree.checkout(checkoutOptions).then((result: any) => {
       if (result.status) {
         if (result.status === 200) {
@@ -125,9 +128,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       }
     });
   };
-  
-
- 
 
   if (!isModalOpen) return null;
 
@@ -151,7 +151,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         <div className="text-gray-700 mb-6">
           <div>
             <p className="text-sm font-medium">Credit Balance</p>
-            <p className="text-2xl font-bold text-gray-900">{credits}</p>
+            <p className="text-2xl font-bold text-gray-900">{creditBalance}</p>
           </div>
         </div>
 

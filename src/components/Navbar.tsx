@@ -8,9 +8,10 @@ import { AuthContext } from "../authContext/Context";
 import { useContext } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import PaymentModal from "./PaymentModal";
+import { signOut } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
 
-const Navbar = () => {
+const Navbar = ({ credits }: { credits: number }) => {
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +21,11 @@ const Navbar = () => {
   const handleLogout = async () => {
     setLoading(true);
 
+    // next-auth logout
+    await signOut();
+
     const userJson = localStorage.getItem("user");
+
     if (userJson) {
       const user = JSON.parse(userJson);
       const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/auth/logout`;
@@ -95,7 +100,7 @@ const Navbar = () => {
           >
             <FaCreditCard size={24} />
             <span className="sm:inline-block text-lg sm:text-xl font-bold">
-              90 Credits
+              {credits} Credits
             </span>
           </div>
 
@@ -111,7 +116,11 @@ const Navbar = () => {
       </nav>
 
       {/* Payment Modal */}
-      <PaymentModal isModalOpen={isModalOpen} toggleModal={toggleModal} />
+      <PaymentModal
+        isModalOpen={isModalOpen}
+        creditBalance={credits}
+        toggleModal={toggleModal}
+      />
     </div>
   );
 };
