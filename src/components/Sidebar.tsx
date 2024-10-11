@@ -126,11 +126,10 @@ const Sidebar = ({
               },
             }
           );
-          console.log("hdfbeikjbv", response.data);
+          console.log("New Document", response.data);
 
           if (response?.data?.status) {
-            console.log("docCredit", response?.data?.data?.user?.credits);
-            updateCredit(response?.data?.data?.user?.credits);
+            updateCredit(response?.data?.data?.user?.credits - 1);
 
             const data = {
               id: response?.data?.data?._id,
