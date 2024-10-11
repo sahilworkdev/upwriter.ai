@@ -1,15 +1,19 @@
-import Dashboard from "./components/Dashboard";
-import Navbar from "./components/Navbar";
-import { AuthProvider } from "./authContext/Context";
+"use client"
+
+// import Home from "./Home/home";
+import { SnackbarProvider } from "notistack";
+import dynamic from 'next/dynamic';
+
+const Home = dynamic(() => import("./Home/home"), {
+  ssr: false,
+});
 
 
-export default function Home() {
+export default function App() {
   return (
-    <AuthProvider>
-      <main>
-        <Navbar />
-        <Dashboard />
-      </main>
-    </AuthProvider>
-  );
+    <SnackbarProvider maxSnack={3}>
+      <Home />
+    </SnackbarProvider>
+
+  )
 }

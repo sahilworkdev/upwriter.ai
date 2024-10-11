@@ -22,13 +22,13 @@ type AuthContextType = {
   logIn: (userData: AuthResponseType) => void;
 };
 
-export const AuthContext = createContext({
+export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   firstName: "",
   lastName: "",
   email: "",
   logOut: () => {},
-  logIn: (userData: AuthResponseType) => {},
+  logIn: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -36,6 +36,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  // const isValid = localStorage.getItem("user");
+  // console.log(isValid, "isvalid");
 
   useEffect(() => {
     const userJson = localStorage.getItem("user");
@@ -51,20 +53,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   function logOut() {
-    localStorage.removeItem("user");
-    console.log("logout");
     setIsLoggedIn(false);
     setFirstName("");
     setLastName("");
     setEmail("");
+    localStorage.removeItem("user");
   }
   function logIn(userData: AuthResponseType) {
-    const userJson = JSON.stringify(userData);
-    localStorage.setItem("user", userJson);
     setIsLoggedIn(true);
     setFirstName(userData.user.firstName);
     setLastName(userData.user.lastName);
     setEmail(userData.user.email);
+    // console.log(userData, "frhr");
+    const userJson = JSON.stringify(userData);
+    localStorage.setItem("user", userJson);
   }
 
   return (
