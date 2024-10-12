@@ -6,6 +6,12 @@ import Navbar from "@/components/Navbar";
 import SignUp from "@/app/signup/page";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "@/authContext/Context";
+import Hero from "@/components/Hero";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import About from "@/components/About";
+import Features from "@/components/Features";
+import LandingNavbar from "@/components/LandingNavbar";
+import Footer from "@/components/Footer";
 
 interface AppContentProps {
   // isLoggedIn: boolean;
@@ -62,6 +68,13 @@ function AppContent() {
       <Dashboard />
     </main>
   ) : (
-    <SignUp />
+    <div>
+      <LandingNavbar />
+      <Hero />
+      <WhyChooseUs />
+      <About />
+      <Features />
+      <Footer />
+    </div>
   );
 }
