@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
   // debug: true,
+  
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -13,6 +14,7 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, account, user }) {
       if (account && account.access_token) {
+       try {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_SOURCE_URL}/auth/google-login?token=${account.access_token}`,
         );
@@ -34,6 +36,9 @@ const handler = NextAuth({
             refreshToken: refreshToken,
           };
         }
+       } catch (error) {
+        console.error(error)
+       }
       }
 
       return token;

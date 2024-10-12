@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@cashfreepayments/cashfree-js": "^1.0.5",
+    "@ngrok/ngrok": "^1.4.1",
     "axios": "^1.7.7",
     "draft-js": "^0.11.7",
+    "http": "^0.0.1-security",
     "next": "14.2.14",
     "next-auth": "^4.24.8",
     "notistack": "^3.0.1",

@@ -72,8 +72,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
     if (paymentMethod === "cashfree") {
       try {
-        const url =
-          "https://0485-2401-4900-8841-8102-394c-7d29-4316-7a41.ngrok-free.app/user/cashfree";
+        const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/user/cashfree`;
 
         if (accessToken) {
           const response = await axios.post(
@@ -111,7 +110,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     console.log("paymentttt");
     const checkoutOptions = {
       paymentSessionId: data?.sessionId,
-      returnUrl: `https://0485-2401-4900-8841-8102-394c-7d29-4316-7a41.ngrok-free.app/user/status/${data?.orderId}`,
+      returnUrl: `${process.env.NEXT_PUBLIC_SOURCE_URL}/user/status/${data?.orderId}`,
     };
 
     cashfree.checkout(checkoutOptions).then((result: any) => {
@@ -161,7 +160,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
             options={options}
             onSelect={(option) => {
               setCredits(option);
-              setAmount(option * 100);
+              setAmount(option);
               setErrors((prevErrors) => ({ ...prevErrors, credits: "" }));
             }}
           />

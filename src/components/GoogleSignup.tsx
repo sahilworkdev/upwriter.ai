@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function GoogleSignup() {
   const handleSignIn = async () => {
-    await signIn("google");
+    await signIn("google", { callbackUrl: "/" });
   };
 
   return (
