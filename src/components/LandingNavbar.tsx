@@ -11,8 +11,8 @@ const LandingNavbar = () => {
   const [mobileNavigation, setMobileNavigation] = useState(false);
 
   return (
-    <header className=" container-wrapper backdrop-blur-3xl sticky top-0 md:static  z-20">
-      <div className="content-container bg-blue-80 flex justify-between py-4 md:py-6">
+    <header className="bg-gray-900/80 container-wrapper backdrop-blur-3xl md:static  z-20">
+      <div className="content-container bg-blue-80 flex justify-between py-4 md:py-6 items-center">
         {/* hamburger menu button */}
         <div
           className="md:hidden  "
@@ -26,19 +26,27 @@ const LandingNavbar = () => {
           </Link>
         </div>
         <div className="hidden md:flex">
-          <nav className="space-x-10 m-auto  md:text-xl lg:text-2xl">
-            <Link href="/resources">Resources</Link>
-            <Link href="/pricing">Pricing</Link>
-            <Link href="/company">Company</Link>
-            <Link href="/support">Support</Link>
+          <nav className="space-x-10 m-auto md:text-xl lg:text-2xl">
+            <Link className="hover:text-green-500" href="/resources">
+              Resources
+            </Link>
+            <Link className="hover:text-green-500" href="/pricing">
+              Pricing
+            </Link>
+            <Link className="hover:text-green-500" href="/company">
+              Company
+            </Link>
+            <Link className="hover:text-green-500" href="/support">
+              Support
+            </Link>
           </nav>
         </div>
         <div>
           {" "}
-          <span className="bg-green-500 text-black hover:scale-90 text-xs sm:text-sm md:text-lg font-semibold p-1 sm:px-2 sm:py-1 md:px-4 md:py-2 rounded align-middle">
+          <div className="bg-white rounded-full text-black hover:scale-90 text-xs sm:text-sm md:text-lg font-semibold p-1 sm:px-2 sm:py-1 md:px-4 md:py-2 align-middle">
             {/* <Link href={'/signup'}> Try Buxa.ai</Link> */}
             <GoogleSignup />
-          </span>
+          </div>
         </div>
       </div>
       <div

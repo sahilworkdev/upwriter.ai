@@ -60,7 +60,9 @@ function AppContent() {
     </main>
   ) : (
     <main>
-      <LandingNavbar />
+      <div className="sticky top-0 z-[99]">
+        <LandingNavbar />
+      </div>
       <Hero />
       <WhyChooseUs />
       <About />
