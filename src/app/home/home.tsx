@@ -17,7 +17,6 @@ export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const accessToken = session?.user?.accessToken;
-  // console.log("accessToken", accessToken);
   useEffect(() => {
     const fetchUser = async () => {
       if (accessToken) {

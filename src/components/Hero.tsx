@@ -7,6 +7,7 @@ import btc from "../../public/images/brandLogos/btc.svg";
 import DownArrow from "../../public/images/DownArrow.svg";
 import Hero2 from "../../public/images/hero2.svg";
 import Hero1 from "../../public/images/hero1.svg";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -54,9 +55,15 @@ const Hero = () => {
         </div>
       </section>
       <div className="content-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center items-center pt-6">
-        <Image src={astrix} alt="astrix logo" width={190} height={190} />
-        <Image src={btc} alt="btc logo" width={190} height={190} />
-        <Image src={lex} alt="lexai logo" width={190} height={190} />
+        <Link href="https://app.astrix.live/" target="_blank">
+          <Image src={astrix} alt="astrix logo" width={190} height={190} />
+        </Link>
+        <Link href="https://btcwires.com/" target="_blank">
+          <Image src={btc} alt="btc logo" width={190} height={190} />
+        </Link>
+        <Link href="https://lex.live/" target="_blank">
+          <Image src={lex} alt="lexai logo" width={190} height={190} />
+        </Link>
       </div>
     </div>
   );

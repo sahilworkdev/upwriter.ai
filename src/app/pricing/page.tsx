@@ -1,7 +1,6 @@
 import Layout from "@/components/Layout";
 import React from "react";
-
-function page() {
+function Page() {
   return (
     <Layout>
       <div className="text-center ">
@@ -11,4 +10,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

@@ -7,14 +7,18 @@ import Editor from "./Editor";
 import PaginatedTable from "./PaginatedTable";
 import { DocumentInfo } from "./Dashboard";
 import { IoMdDocument } from "react-icons/io";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 function DocumentList({
+  handleManualDocumentSubmit,
   documents,
   handleFavouriteUpdate,
   handleDeleteData,
   setShowEditor,
   setEditorText,
 }: {
+  handleManualDocumentSubmit: (data: DocumentInfo) => void;
   documents: DocumentInfo[];
   handleFavouriteUpdate: (id: string) => void;
   handleDeleteData: (id: string) => void;
@@ -31,6 +35,9 @@ function DocumentList({
     favourite: false,
   });
 
+  const { data: session } = useSession();
+  const accessToken = session?.user?.accessToken;
+
   if (favouritesON) {
     documents = documents.filter((doc) => doc.favourite);
   }
@@ -41,7 +48,35 @@ function DocumentList({
   const handleEditorTextChange = (content: string) => {
     setManualEditorText({ ...manualEditorText, name: content });
   };
-
+  const handleMannualDocumentSave = async () => {
+    const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/0`;
+    if (accessToken) {
+      try {
+        const res = await axios.post(
+          url,
+          {
+            content: manualEditorText.name,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        if (res.status === 200) {
+          handleManualDocumentSubmit({
+            id: res.data.data.id,
+            name: res.data.data.content,
+            words: res.data.data.wordCount,
+            modified: res.data.data.updatedAt,
+            favourite: res.data.data.isFavourite,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <div>
       <div className="flex items-end justify-between mb-4">
@@ -112,7 +147,10 @@ function DocumentList({
               New Document
             </h2>
           </div>
-          <button className="text-black flex items-center gap-2 top-10 bg-primary-green  px-4 py-2 text-sm rounded-md shadow-md hover:bg-primary-green">
+          <button
+            className="text-black flex items-center gap-2 top-10 bg-primary-green  px-4 py-2 text-sm rounded-md shadow-md hover:bg-primary-green"
+            onClick={handleMannualDocumentSave}
+          >
             <IoMdDocument />
             <span>Save</span>
           </button>

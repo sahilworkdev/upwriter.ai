@@ -27,6 +27,10 @@ function TableRow({
 }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
 
+  const htmlString = data.name;
+  const html = new DOMParser().parseFromString(htmlString, "text/html");
+  const text = html.body.textContent || "";
+
   // Function to format the date
   function formatDate(dateString: string): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -59,18 +63,17 @@ function TableRow({
         wrap
         className="flex !whitespace-normal items-center"
       >
-        <FaFileAlt
-  
-          className="inline mr-2 hover:cursor-pointer text-white"
-        />
+        <FaFileAlt className="inline mr-2 hover:cursor-pointer text-white" />
         <span className="max-w-[8ch] sm:max-w-[16ch] md:max-w-[25ch] lg:max-w-[50ch] truncate">
-          {data.name}
+          {text}
         </span>
       </Td>
       <Td className="text-center text-white">{data.words}</Td>
       <Td className="text-center">
         <span className="hidden sm:inline">{formatDate(data?.modified)}</span>
-        <span className="sm:hidden">{formatDate(data?.modified).slice(0, 10)}...</span>
+        <span className="sm:hidden">
+          {formatDate(data?.modified).slice(0, 10)}...
+        </span>
       </Td>
       <Td>
         <button
@@ -99,7 +102,7 @@ function TableRow({
           <OptionsModal
             id={data.id}
             handleDeleteData={handleDeleteData}
-            onClose={() => setModalOpen(false)} 
+            onClose={() => setModalOpen(false)}
           />
         )}
       </Td>
@@ -131,4 +134,3 @@ function Td({
 }
 
 export default TableRow;
-
