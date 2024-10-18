@@ -131,6 +131,10 @@ const Dashboard = () => {
     setIsSidebarOpen(false);
   };
 
+  const handleManualDocumentSubmit = (data: DocumentInfo) => {
+    setDocuments((prevDocuments) => [data, ...prevDocuments]);
+  };
+
   const handleEditorSubmit = async () => {
     const url = `${process.env.NEXT_PUBLIC_SOURCE_URL}/documents/${editorText?.id}`;
     if (accessToken) {
@@ -183,7 +187,7 @@ const Dashboard = () => {
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } ease-in-out duration-300`}
         >
-          <div className="relative w-full h-full bg-white shadow-lg">
+          <div className="relative w-full h-full bg-blue shadow-lg">
             <Sidebar handleDocumentSubmit={handleDocumentSubmit} />
           </div>
         </div>
@@ -224,6 +228,7 @@ const Dashboard = () => {
         ) : (
           <div className="flex-grow">
             <DocumentList
+              handleManualDocumentSubmit={handleManualDocumentSubmit}
               setEditorText={setEditorText}
               setShowEditor={setShowEditor}
               documents={documents}

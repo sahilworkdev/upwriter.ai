@@ -33,7 +33,7 @@ const company = [
 const Footer = () => {
   return (
     <div className="container-wrapper py-10  ">
-      <footer className=" bg-gray-900 content-container  rounded-xl text-white p-10 mb-10">
+      <footer className=" bg-gray-900 content-container flex-col lg:flex-row rounded-xl text-white p-10 mb-10  text-center  sm:text-start">
         <div className=" mx-auto md:flex   ">
           <div className="mb-10 md:mb-0 md:w-1/2">
             <div className="flex flex-col  justify-center items-center md:items-start">
@@ -43,15 +43,19 @@ const Footer = () => {
                 </Link>
               </div>
               <p className="mt-4  md:w-3/4 opacity-50">
-                BUXA AI builds AI writing software with love. Our AI writing app
-                is a team of expert engineers, designers and also thought leader
-                students from all around the world.
+                Introducing a powerful AI tool designed to boost productivity
+                and streamline workflows. With Write with AI, users can
+                effortlessly generate high-quality content using smart
+                topic-based assistance. Research with AI offers in-depth
+                exploration of any subject, providing detailed insights and
+                summaries. Stay informed with Alert with AI, delivering
+                real-time updates on personalized keywords and topics.
               </p>
             </div>
           </div>
-          <div className="flex space-x-8 mb-8 md:mb-2 px-4">
+          <div className="flex flex-wrap sm:flex-nowrap justify-center items-center sm:items-start sm:justify-start gap-10   mb-8 md:mb-2 px-4">
             <div className="md:w-1/5 flex flex-col items-center">
-              <h3 className="font-bold text-xl">Quick Links</h3>
+              <h3 className="font-bold text-xl text-nowrap">Quick Links</h3>
               <ul className="mt-2 space-y-4 ">
                 {quickLinks.map((item, i) => (
                   <li key={i}>
@@ -75,7 +79,7 @@ const Footer = () => {
               </ul>
             </div>
             <div className="w-1/2 md:w-3/5 ">
-              <h3 className="font-bold text-xl ">Get It Free</h3>
+              <h3 className="font-bold text-xl text-nowrap">Get It Free</h3>
               <p className="mt-2 opacity-50">
                 Our Product is free to use. Get started now and experience the
                 power of AI writing.
@@ -92,11 +96,18 @@ const Footer = () => {
             );
           })}
         </div>
-        <div className="text-center w-5/6  md:w-full opacity-50">
+        <div className="text-center md:w-full opacity-50">
           <p className="">
-            Copyright © 2024 <Link href='' className="border-b">Wasserstoff Innovation and Learning Labs Pvt Ltd</Link>. All rights reserved. The
-            world&apos;s first AI writing app & keyboard powered by Open
-            AI&apos;s API.
+            Copyright © 2024{" "}
+            <Link
+              href="https://thewasserstoff.com/"
+              target="_blank"
+              className="border-b"
+            >
+              Wasserstoff Innovation and Learning Labs Pvt Ltd
+            </Link>
+            . All rights reserved. The world&apos;s first AI writing app &
+            keyboard powered by Open AI&apos;s API.
           </p>
         </div>
       </footer>

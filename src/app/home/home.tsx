@@ -17,7 +17,6 @@ export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const accessToken = session?.user?.accessToken;
-  // console.log("accessToken", accessToken);
   useEffect(() => {
     const fetchUser = async () => {
       if (accessToken) {
@@ -60,7 +59,9 @@ function AppContent() {
     </main>
   ) : (
     <main>
-      <LandingNavbar />
+      <div className="sticky top-0 z-[99]">
+        <LandingNavbar />
+      </div>
       <Hero />
       <WhyChooseUs />
       <About />

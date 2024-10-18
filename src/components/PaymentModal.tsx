@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import BuyCreditsDropdown from "./BuyCreditsDropdown";
-//@ts-ignore
+//@ts-expect-error cashfree
 import { load } from "@cashfreepayments/cashfree-js";
 import { enqueueSnackbar } from "notistack";
 import { useSession } from "next-auth/react";
